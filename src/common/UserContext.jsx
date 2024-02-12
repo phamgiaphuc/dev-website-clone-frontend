@@ -30,7 +30,7 @@ const UserContextProvider = ({children}) => {
       })
       .catch(({ response: { data }}) => {
         console.log(data.error);
-        toast.error(data.error);
+        toast.error(data.error + '. Please sign in');
       })
   }, []);
   return (

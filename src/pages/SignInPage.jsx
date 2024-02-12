@@ -1,5 +1,4 @@
 import { Link, Navigate } from 'react-router-dom';
-import { FcGoogle } from "react-icons/fc";
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { emailRegex, passwordRegex } from '@/common/regexVars';
@@ -9,6 +8,7 @@ import { SERVER_BASE_URL } from '@/constants/vars';
 import axios from 'axios';
 import { storeInSession } from '@/common/session';
 import { UserContext } from '@/common/UserContext';
+import GoogleAuthBtn from '@/components/GoogleAuthBtn';
 
 const SignInPage = () => {
 
@@ -21,7 +21,11 @@ const SignInPage = () => {
     const loadingToast = toast.loading('Signing in...');
     try {
       const { data } = await axios.post(SERVER_BASE_URL + `/v1/users/signin`, credentials);
-      if (data?.message) {
+      if (data?.google_auth) {
+        toast.dismiss(loadingToast);
+        toast.error(data?.message);
+      }
+      if (data?.is_verified) {
         toast.dismiss(loadingToast);
         return setRedirect('/verification/' + data?.id);
       }
@@ -30,7 +34,6 @@ const SignInPage = () => {
         setUserAuth(data);
         toast.dismiss(loadingToast);
         toast.success('Signed in 👍');
-        return setRedirect('/');
       }
     } catch ({ response: { data }}) {
       console.log(data.error);
@@ -48,6 +51,7 @@ const SignInPage = () => {
       toast.error(password.message);
     }
   }
+
   if (redirect) {
     return <Navigate to={redirect} />
   }
@@ -79,7 +83,7 @@ const SignInPage = () => {
               required: 'Password is required',
               pattern: {
                 value: passwordRegex,
-                message: 'Invalid password'
+                message: 'Invalid password. Password should be 6 to 20 characters long with a numeric, 1 lowercase and 1 uppercase.'
               }
             })} type={passwordVisible ? 'text' : 'password'} placeholder='Password'/>
             <div onClick={() => setPasswordVisible(!passwordVisible)} className="flex items-center absolute right-2 bottom-2 bg-white rounded-md hover:text-indigo-600 cursor-pointer">
@@ -103,10 +107,7 @@ const SignInPage = () => {
             <span className="flex-shrink mx-4 text-sm font-light">OR CONTINUE WITH</span>
             <div className="flex-grow border-t border-black"></div>
           </div>
-          <button className="flex items-center justify-center gap-2 py-2 px-4 rounded-md mt-4 bg-white border border-black font-medium text-center w-full hover:bg-gray-200 hover:underline hover:underline-offset-2">
-            <FcGoogle className='h-6 w-6' />
-            Sign in with Google
-          </button>
+          <GoogleAuthBtn setUserAuth={setUserAuth}/>
         </form>
       </div>
     </div>
