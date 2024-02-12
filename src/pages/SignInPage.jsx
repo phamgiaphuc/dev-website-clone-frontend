@@ -3,28 +3,42 @@ import { FcGoogle } from "react-icons/fc";
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { emailRegex, passwordRegex } from '@/common/regexVars';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { SERVER_BASE_URL } from '@/constants/vars';
 import axios from 'axios';
+import { storeInSession } from '@/common/session';
+import { UserContext } from '@/common/UserContext';
 
 const SignInPage = () => {
+
   const { register, handleSubmit } = useForm();
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [redirect, setRedirect] = useState(null);
+  const { userAuth: { access_token }, setUserAuth } = useContext(UserContext);
+
   const onSubmitForm = async (credentials) => {
+    const loadingToast = toast.loading('Signing in...');
     try {
-      const loadingToast = toast.loading('Signing in...');
       const { data } = await axios.post(SERVER_BASE_URL + `/v1/users/signin`, credentials);
-      if (data) {
+      if (data?.message) {
         toast.dismiss(loadingToast);
-        setRedirect('/')
+        return setRedirect('/verification/' + data?.id);
       }
-    } catch (error) {
-      console.log(error.message);
-      toast.error(error.message);
+      if (data?.access_token) {
+        storeInSession('user_at', JSON.stringify(data));
+        setUserAuth(data);
+        toast.dismiss(loadingToast);
+        toast.success('Signed in 👍');
+        return setRedirect('/');
+      }
+    } catch ({ response: { data }}) {
+      console.log(data.error);
+      toast.dismiss(loadingToast);
+      toast.error(data.error);
     }
   }
+
   const onErrors = (errors) => {
     const { email, password } = errors;
     if (email) {
@@ -37,7 +51,11 @@ const SignInPage = () => {
   if (redirect) {
     return <Navigate to={redirect} />
   }
+  
   return (
+    access_token ?
+    <Navigate to={'/'} />
+    :
     <div className="-mt-14 flex items-center justify-center min-h-screen font-light">
       <div className="max-w-md w-full">
         <form onSubmit={handleSubmit(onSubmitForm, onErrors)}>

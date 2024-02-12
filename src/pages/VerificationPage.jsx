@@ -1,6 +1,8 @@
+import { UserContext } from "@/common/UserContext";
+import { storeInSession } from "@/common/session";
 import { SERVER_BASE_URL } from "@/constants/vars";
 import axios from "axios";
-import { useState } from "react"
+import { useContext, useState } from "react"
 import toast from "react-hot-toast";
 import { Navigate, useParams } from "react-router";
 
@@ -8,23 +10,30 @@ const VerificationPage = () => {
   const { id } = useParams();
   const [code, setCode] = useState('');
   const [redirect, setRedirect] = useState(null);
+  const { setUserAuth } = useContext(UserContext);
+
   const onSubmitForm = async (event) => {
     event.preventDefault();
     try {
       const loadingToast = toast.loading('Verifying...');
       const { data } = await axios.post(SERVER_BASE_URL + `/v1/users/verification/${id}`, { code });
       if (data) {
+        storeInSession('user_at', JSON.stringify(data));
+        setUserAuth(data);
         toast.dismiss(loadingToast);
-        setRedirect('/')
+        toast.success('Signed in 👍');
+        return setRedirect('/');
       }
     } catch(error) {
       console.log(error.message);
       toast.error(error.message);
     }
   }
+
   if (redirect) {
     return <Navigate to={redirect} />
   }
+  
   return (
     <div className="-mt-14 flex items-center justify-center min-h-screen font-light">
       <div className="max-w-md w-full">

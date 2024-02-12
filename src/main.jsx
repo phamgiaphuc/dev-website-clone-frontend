@@ -6,10 +6,10 @@ import { BrowserRouter } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <BrowserRouter>
     <App />
     <Toaster />
     </BrowserRouter>
-  </React.StrictMode>,
+  // </React.StrictMode>,
 )

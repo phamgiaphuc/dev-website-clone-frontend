@@ -3,15 +3,19 @@ import { FcGoogle } from "react-icons/fc";
 import { useForm } from 'react-hook-form';
 import { emailRegex, passwordRegex } from '@/common/regexVars';
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import axios from 'axios';
 import { SERVER_BASE_URL } from '@/constants/vars';
 import toast from 'react-hot-toast';
+import { UserContext } from '@/common/UserContext';
 
 const SignUpPage = () => {
+
+  const { userAuth: { access_token } } = useContext(UserContext);
   const [redirect, setRedirect] = useState(null);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const { register, handleSubmit, watch } = useForm();
+
   const onSubmitForm = async (data) => {
     let loadingToast = toast.loading('Registering...')
     const { data: { is_verified, id }} = await axios.post(SERVER_BASE_URL + '/v1/users/signup', data);
@@ -24,10 +28,15 @@ const SignUpPage = () => {
       }, 2000);
     }
   }
+
   if (redirect) {
     return <Navigate to={redirect}/>
   }
+  
   return (
+    access_token ?
+    <Navigate to={'/'} />
+    :
     <div className="-mt-14 flex items-center justify-center min-h-screen font-light">
       <div className="max-w-md w-full">
         <form onSubmit={handleSubmit(onSubmitForm)}>
