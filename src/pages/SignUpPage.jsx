@@ -1,38 +1,26 @@
-import { Link, Navigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form';
-import { emailRegex, passwordRegex } from '@/common/regexVars';
+import { emailRegex, passwordRegex } from '@/constants/regexVars';
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
-import { useContext, useState } from 'react';
-import axios from 'axios';
-import { SERVER_BASE_URL } from '@/constants/vars';
+import { useState } from 'react';
 import toast from 'react-hot-toast';
-import { UserContext } from '@/common/UserContext';
 import GoogleAuthBtn from '@/components/GoogleAuthBtn';
+import { useDispatch, useSelector } from 'react-redux';
+import { authSignUp } from '@/redux/apiRequest';
 
 const SignUpPage = () => {
-
-  const { userAuth: { access_token }, setUserAuth } = useContext(UserContext);
-  const [redirect, setRedirect] = useState(null);
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [passwordMatch, setPasswordMatch] = useState(false);
   const { register, handleSubmit, watch } = useForm();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const user = useSelector((state) => state.auth.login.currentUser);
 
-  const onSubmitForm = async (data) => {
-    const loadingToast = toast.loading('Registering...')
-    try {
-      const { data: { is_verified, id }} = await axios.post(SERVER_BASE_URL + '/v1/users/signup', data);
-      if (is_verified === false) {
-        toast.dismiss(loadingToast);
-        let successToast = toast.success('Created 👍');
-        setTimeout(() => {
-          toast.dismiss(successToast);
-          setRedirect('/verification/' + id);
-        }, 2000);
-      }
-    } catch ({ response: { data }}) {
-      console.log(data.error);
-      toast.dismiss(loadingToast);
-      toast.error(data.error);
+  const onSubmitForm = async (credentials) => {
+    if (passwordMatch === false) {
+      return toast.error('Passwords do not match.');
     }
+    await authSignUp(credentials, dispatch, navigate);
   }
 
   const onErrors = (errors) => {
@@ -45,13 +33,9 @@ const SignUpPage = () => {
     }
   }
 
-  if (redirect) {
-    return <Navigate to={redirect}/>
-  }
-
   return (
-    access_token ?
-    <Navigate to={'/'} />
+    user ?
+    navigate('/')
     :
     <div className="-mt-14 flex items-center justify-center min-h-screen font-light">
       <div className="max-w-md w-full">
@@ -100,7 +84,7 @@ const SignUpPage = () => {
             <input {...register('confirm_password', {
               required: true,
               validate: (value) => {
-                if (watch('password') !== value) {return toast.error('Passwords do not match');}
+                if (watch('password') === value) { setPasswordMatch(true) }
               }
             })} type="password" placeholder='Password'/>
           </div>
@@ -116,7 +100,7 @@ const SignUpPage = () => {
             <span className="flex-shrink mx-4 text-sm font-light">OR CONTINUE WITH</span>
             <div className="flex-grow border-t border-black"></div>
           </div>
-          <GoogleAuthBtn setUserAuth={setUserAuth} />
+          <GoogleAuthBtn/>
         </form>
       </div>
     </div>

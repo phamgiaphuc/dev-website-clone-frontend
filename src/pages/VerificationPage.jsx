@@ -1,37 +1,18 @@
-import { UserContext } from "@/common/UserContext";
-import { storeInSession } from "@/common/session";
-import { SERVER_BASE_URL } from "@/constants/vars";
-import axios from "axios";
-import { useContext, useState } from "react"
-import toast from "react-hot-toast";
-import { Navigate, useParams } from "react-router";
+import { authVerification } from "@/redux/apiRequest";
+import { useState } from "react"
+import { useDispatch } from "react-redux";
+import { useParams } from "react-router";
+import { useNavigate } from 'react-router-dom';
 
 const VerificationPage = () => {
   const { id } = useParams();
   const [code, setCode] = useState('');
-  const [redirect, setRedirect] = useState(null);
-  const { setUserAuth } = useContext(UserContext);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const onSubmitForm = async (event) => {
     event.preventDefault();
-    try {
-      const loadingToast = toast.loading('Verifying...');
-      const { data } = await axios.post(SERVER_BASE_URL + `/v1/users/verification/${id}`, { code });
-      if (data) {
-        storeInSession('user_at', JSON.stringify(data));
-        setUserAuth(data);
-        toast.dismiss(loadingToast);
-        toast.success('Signed in 👍');
-        return setRedirect('/');
-      }
-    } catch(error) {
-      console.log(error.message);
-      toast.error(error.message);
-    }
-  }
-
-  if (redirect) {
-    return <Navigate to={redirect} />
+    await authVerification(id, code, dispatch, navigate);
   }
   
   return (
@@ -40,10 +21,10 @@ const VerificationPage = () => {
         <form onSubmit={onSubmitForm}>
           <div className="flex flex-col text-center gap-1">
             <span className="text-2xl font-bold">Verification page</span>
-            <span>Enter the code to verify your account</span>
+            <span>The code is sent to your mail.</span>
           </div>
           <div className="flex flex-col mt-4 gap-1">
-            <span className="font-medium">Verification code</span>
+            <span className="font-medium">Enter the code to verify your account</span>
             <input onChange={(event) => setCode(event.target.value)} type="text" placeholder='Code'/>
           </div>
           {

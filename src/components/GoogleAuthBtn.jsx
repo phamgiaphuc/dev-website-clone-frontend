@@ -1,27 +1,14 @@
-/* eslint-disable react/prop-types */
-import { authWithGoogle } from "@/common/firebase";
-import { storeInSession } from "@/common/session";
-import { SERVER_BASE_URL } from "@/constants/vars";
-import axios from "axios";
-import toast from "react-hot-toast";
+import { authGoogle } from "@/redux/apiRequest";
 import { FcGoogle } from "react-icons/fc";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-const GoogleAuthBtn = ({setUserAuth}) => {
-  const handleGoogleAuth = (event) => {
+const GoogleAuthBtn = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const handleGoogleAuth = async (event) => {
     event.preventDefault();
-    authWithGoogle()
-      .then((user) => {
-        axios.post(SERVER_BASE_URL + '/v1/users/google-auth', { token: user.accessToken })
-          .then(({data}) => {
-            storeInSession('user_rt', JSON.stringify(data));
-            setUserAuth(data);
-            toast.success('Signed in 👍');
-          })
-      })
-      .catch((error) => {
-        toast.error('Trouble sign in through Google');
-        return console.log(error);
-      });
+    authGoogle(dispatch, navigate);
   }
 
   return (
