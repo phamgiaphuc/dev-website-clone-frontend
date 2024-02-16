@@ -6,7 +6,7 @@ import { FaRegBell } from "react-icons/fa";
 import UserNavigation from './UserNavigation';
 
 const Header = () => {
-  const user = useSelector((state) => state.auth.login.currentUser);
+  const user = useSelector((state) => state.auth.user.data);
   const [userNav, setUserNav] = useState(false);
   const handleBlur = () => {
     setTimeout(() => {
@@ -37,7 +37,7 @@ const Header = () => {
               <FaRegBell className='h-6 w-6'/>
             </Link>
             <button onClick={() => setUserNav(!userNav)} onBlur={handleBlur} className='ring-1 ring-gray-400 overflow-hidden rounded-full hover:ring-indigo-600'>
-              <img src={user?.profile?.profile_img} className='w-10 h-10 object-cover' />
+              <img src={user.profile?.profile_img} className='w-10 h-10 object-cover' />
             </button>
             {
               userNav ?

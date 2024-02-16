@@ -1,14 +1,14 @@
-import { authVerification } from "@/redux/apiRequest";
+import { authVerification } from "@/redux/authApi";
 import { useState } from "react"
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router";
-import { useNavigate } from 'react-router-dom';
 
 const VerificationPage = () => {
   const { id } = useParams();
   const [code, setCode] = useState('');
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const onSubmitForm = async (event) => {
     event.preventDefault();
@@ -17,7 +17,7 @@ const VerificationPage = () => {
   
   return (
     <div className="-mt-14 flex items-center justify-center min-h-screen font-light">
-      <div className="max-w-md w-full">
+      <div className="max-w-lg w-full">
         <form onSubmit={onSubmitForm}>
           <div className="flex flex-col text-center gap-1">
             <span className="text-2xl font-bold">Verification page</span>

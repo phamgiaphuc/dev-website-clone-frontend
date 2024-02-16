@@ -5,22 +5,21 @@ import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import GoogleAuthBtn from '@/components/GoogleAuthBtn';
-import { useDispatch, useSelector } from 'react-redux';
-import { authSignUp } from '@/redux/apiRequest';
+import { authSignUp } from '@/redux/authApi';
+import { useDispatch } from 'react-redux';
 
 const SignUpPage = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [passwordMatch, setPasswordMatch] = useState(false);
   const { register, handleSubmit, watch } = useForm();
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector((state) => state.auth.login.currentUser);
+  const dispatch = useDispatch();
 
   const onSubmitForm = async (credentials) => {
     if (passwordMatch === false) {
       return toast.error('Passwords do not match.');
     }
-    await authSignUp(credentials, dispatch, navigate);
+    await authSignUp(credentials, dispatch, navigate)
   }
 
   const onErrors = (errors) => {
@@ -34,11 +33,8 @@ const SignUpPage = () => {
   }
 
   return (
-    user ?
-    navigate('/')
-    :
     <div className="-mt-14 flex items-center justify-center min-h-screen font-light">
-      <div className="max-w-md w-full">
+      <div className="max-w-lg w-full">
         <form onSubmit={handleSubmit(onSubmitForm, onErrors)}>
           <div className="flex flex-col text-center gap-1">
             <span className="text-2xl font-bold">Sign up page</span>

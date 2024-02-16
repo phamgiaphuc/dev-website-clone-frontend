@@ -1,4 +1,4 @@
-import { authGoogle } from "@/redux/apiRequest";
+import { authGoogleSignIn } from "@/redux/authApi";
 import { FcGoogle } from "react-icons/fc";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -6,9 +6,10 @@ import { useNavigate } from "react-router-dom";
 const GoogleAuthBtn = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const handleGoogleAuth = async (event) => {
     event.preventDefault();
-    authGoogle(dispatch, navigate);
+    await authGoogleSignIn(dispatch, navigate);
   }
 
   return (
