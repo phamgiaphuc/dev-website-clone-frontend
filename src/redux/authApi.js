@@ -2,6 +2,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { signInFailed, signInStart, signInSuccess, signOutFailed, signOutStart, signOutSuccess, signUpFailed, signUpStart, signUpSuccess, verificationFailed, verificationStart, verificationSuccess } from "./authSlice";
 import { authWithGoogle } from "@/common/firebase";
+import { userSignIn, userSignOut, userVerify } from "./userSlice";
 
 export const authSignIn = async (credentials, dispatch, navigate) => {
   dispatch(signInStart());
@@ -14,6 +15,7 @@ export const authSignIn = async (credentials, dispatch, navigate) => {
       return navigate(`/verification/${data?.id}`);
     }
     dispatch(signInSuccess(data));
+    dispatch(userSignIn(data));
     toast.dismiss(loadingToast);
     toast.success('Sign in 👍');
     navigate('/');
@@ -29,6 +31,7 @@ export const authSignOut = async (dispatch) => {
   try {
     await axios.get('/v1/auth/signout');
     dispatch(signOutSuccess());
+    dispatch(userSignOut());
     toast.success('Sign out 👍');
   } catch ({response: {data}}) {
     dispatch(signOutFailed());
@@ -63,6 +66,7 @@ export const authVerification = async (id, code, dispatch, navigate) => {
       return toast.error(data.message);
     }
     dispatch(verificationSuccess(data));
+    dispatch(userVerify(data));
     toast.dismiss(loadingToast);
     toast.success('Sign in 👍');
     navigate('/');
@@ -81,6 +85,7 @@ export const authGoogleSignIn = async (dispatch, navigate) => {
       token: accessToken
     });
     dispatch(signInSuccess(data));
+    dispatch(userSignIn(data));
     toast.success('Sign in 👍');
     navigate('/');
   } catch ({ response: {data}}) {

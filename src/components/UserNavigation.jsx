@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 const UserNavigation = () => {
-  const user = useSelector((state) => state.auth.user.data);
+  const { profile } = useSelector((state) => state.user.data);
   const dispatch = useDispatch();
 
   const handleSignOutBtn = async (event) => {
@@ -14,10 +14,10 @@ const UserNavigation = () => {
   return (
     <div className='bg-white absolute border right-0 top-11 border-gray-200 rounded-md duration-200'>
       <div className='p-2 w-64 flex flex-col text-left'>
-        <Link to={`/${user.profile?.username}`} className='flex flex-col mb-2 py-2 px-4 rounded-md group hover:text-indigo-600 hover:bg-indigo-100 hover:underline hover:underline-offset-2'>
-          <span className='font-medium'>{user.profile?.fullname}</span>
-          <span className='text-sm text-gray-500 group-hover:text-indigo-600'>
-            @{user.profile?.username}
+        <Link to={`/${profile?.username}`} className='flex flex-col mb-2 py-2 px-4 rounded-md group hover:text-indigo-600 hover:bg-indigo-100 hover:underline hover:underline-offset-2'>
+          <span className='font-medium'>{profile?.fullname}</span>
+          <span className='text-sm text-gray-600 group-hover:text-indigo-600'>
+            @{profile?.username}
           </span>
         </Link>
         <div className='border-y border-gray-200 flex flex-col'>

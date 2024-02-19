@@ -6,6 +6,11 @@
   background-color: rgb(244 244 245);
 }
 
-input[type='text'], input[type='password'], input[type='email'] {
-  @apply px-2 py-1.5 w-full rounded-md ring-2 ring-gray-300 placeholder-gray-400 hover:ring-gray-500 focus:outline-none focus:ring-indigo-600
+input[type='text'], input[type='password'], input[type='email'], input[type='url'], textarea {
+  @apply px-2 py-1.5 w-full rounded-md ring-1 ring-gray-300 placeholder-gray-600 focus:ring-2 hover:ring-gray-500 focus:outline-none focus:ring-indigo-600
+}
+
+.react-colorful {
+  position: absolute;
+  top: 1
 }

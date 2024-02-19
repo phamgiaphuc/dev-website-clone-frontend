@@ -1,4 +1,5 @@
 import { initializeApp } from "firebase/app";
+import { getStorage } from"firebase/storage";
 import { getAnalytics } from "firebase/analytics";
 import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
 import toast from "react-hot-toast";
@@ -32,3 +33,5 @@ export const authWithGoogle = async () => {
 
   return user;
 }
+
+export const storage = getStorage(app);

@@ -30,7 +30,7 @@ const SignInPage = () => {
   
   return (
     <div className="-mt-14 flex items-center justify-center min-h-screen font-light">
-      <div className="max-w-lg w-full">
+      <div className="max-w-lg w-full mx-4 md:mx-0">
         <form onSubmit={handleSubmit(onSubmitForm, onErrors)}>
           <div className="flex flex-col text-center gap-1">
             <span className="text-2xl font-bold">Sign in page</span>

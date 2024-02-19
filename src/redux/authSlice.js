@@ -3,11 +3,6 @@ import { createSlice } from '@reduxjs/toolkit'
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
-    user: {
-      data: null,
-      isAuthenticated: false,
-      isSignedIn: false
-    },
     signIn: {
       isFetching: false,
       success: false,
@@ -38,13 +33,10 @@ const authSlice = createSlice({
     signInStart: (state) => {
       state.signIn.isFetching = true
     },
-    signInSuccess: (state, action) => {
+    signInSuccess: (state) => {
       state.signIn.isFetching = false;
       state.signIn.success = true;
       state.signIn.error = false;
-      state.user.data = action.payload;
-      state.user.isAuthenticated = true;
-      state.user.isSignedIn = true;
     },
     signInFailed: (state) => {
       state.signIn.isFetching = false;
@@ -58,9 +50,6 @@ const authSlice = createSlice({
       state.signOut.isFetching = false;
       state.signOut.success = true;
       state.signOut.error = false;
-      state.user.data = null;
-      state.user.isAuthenticated = false;
-      state.user.isSignedIn = false;  
     },
     signOutFailed: (state) => {
       state.logout.isFetching = false;
@@ -83,13 +72,10 @@ const authSlice = createSlice({
     verificationStart: (state) => {
       state.verification.isFetching = true
     },
-    verificationSuccess: (state, action) => {
+    verificationSuccess: (state) => {
       state.verification.isFetching = false;
       state.verification.success = true;
       state.verification.error = false;
-      state.user.data = action.payload;
-      state.user.isAuthenticated = true;
-      state.user.isSignedIn = true;
     },
     verificationFailed: (state) => {
       state.verification.isFetching = false;
@@ -99,21 +85,15 @@ const authSlice = createSlice({
     refreshStart: (state) => {
       state.refresh.isFetching = true
     },
-    refreshSuccess: (state, action) => {
+    refreshSuccess: (state) => {
       state.refresh.isFetching = false;
       state.refresh.success = true;
       state.refresh.error = false;
-      state.user.data = action.payload;
-      state.user.isAuthenticated = true;
-      state.user.isSignedIn = true;
     },
     refreshFailed: (state) => {
       state.refresh.isFetching = false;
       state.refresh.success = false;
       state.refresh.error = true;
-      state.user.data = null;
-      state.user.isAuthenticated = false;
-      state.user.isSignedIn = false;
     },
   }
 });
