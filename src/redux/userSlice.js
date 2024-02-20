@@ -19,7 +19,7 @@ const userSlice = createSlice({
       state.isSignedIn = true;
     },
     userSignOut: (state) => {
-      state.data = false;
+      state.data = null;
       state.isAuthenticated = false;
       state.isSignedIn = false;
     },
