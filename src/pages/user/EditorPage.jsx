@@ -7,6 +7,7 @@ import { generateRandomColor, randomColors } from "@/common/generateRandomColor"
 const EditorPage = () => {
   const [addTagInput, setAddTagInput] = useState(false);
   const [tags, setTags] = useState([]);
+  const [coverImg, setCoverImg] = useState('');
   const navigate = useNavigate();
 
   const handleTitleKeyDown = (event) => {
@@ -49,15 +50,27 @@ const EditorPage = () => {
               <span>Create post</span>
             </div>
             <div className="flex h-fit mt-auto mb-1 gap-2">
-              <button className="py-2 px-4 rounded-md hover:bg-indigo-100 hover:text-indigo-600">Edit</button>
-              <button className="py-2 px-4 rounded-md hover:bg-indigo-100 hover:text-indigo-600">Preview</button>
+              <button className="py-2 px-4 rounded-md hover:bg-indigo-100 hover:text-indigo-600 hover:underline hover:underline-offset-2">Edit</button>
+              <button className="py-2 px-4 rounded-md hover:bg-indigo-100 hover:text-indigo-600 hover:underline hover:underline-offset-2">Preview</button>
             </div>
           </div>
           <div className="ml-16 h-full bg-white flex flex-col rounded-md border border-gray-200 overflow-hidden">
-            <div className="h-[320px] bg-blue-400 flex">
-              <img src="https://images.unsplash.com/photo-1500964757637-c85e8a162699?q=80&w=2103&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" className="object-cover"/>
-            </div>
-            <div className="flex flex-col gap-4 py-8 px-10">
+            {
+              coverImg ?
+              <div className="h-[320px] flex relative">
+                <img src={coverImg} className="object-cover"/>
+                <label htmlFor="upload-cover-img" className="absolute bottom-8 font-medium left-10 rounded-md py-2 px-4 bg-gray-300 hover:bg-gray-400 cursor-pointer">
+                  Add a cover image
+                  <input id="upload-cover-img" type='file' accept='.png, .jpg, .jpeg' hidden />
+                </label>
+              </div>
+              :
+              <label htmlFor="upload-cover-img" className="w-fit mx-10 mt-10 font-medium rounded-md py-2 px-4 bg-gray-300 hover:bg-gray-400 cursor-pointer">
+                Add a cover image
+                <input id="upload-cover-img" type='file' accept='.png, .jpg, .jpeg' hidden />
+              </label>
+            }
+            <div className="flex flex-col gap-4 py-4 px-10">
               <textarea 
                 placeholder="New post title here..."
                 rows={1}
@@ -100,6 +113,14 @@ const EditorPage = () => {
                 }
               </div>
             </div>
+          </div>
+          <div className="ml-16 flex gap-2 my-6">
+            <button className='py-2 px-4 rounded-md text-white bg-indigo-600 hover:bg-indigo-700 hover:underline hover:underline-offset-2'>
+              Publish
+            </button>
+            <button className="py-2 px-4 rounded-md hover:bg-indigo-100 hover:text-indigo-600 hover:underline hover:underline-offset-2">
+              Save draft
+            </button>
           </div>
         </div>
         <div className="bg-blue-200 flex-1">

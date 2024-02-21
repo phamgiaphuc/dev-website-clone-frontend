@@ -91,8 +91,8 @@ const ProfilePage = () => {
             <div>
               <label htmlFor="upload-file" className="px-4 py-2 bg-gray-300 font-medium hover:bg-gray-400 rounded-md cursor-pointer">
                 Choose file
+                <input id="upload-file" type='file' accept='.png, .jpg, .jpeg' hidden onChange={handleUploadFile}/>
               </label>
-              <input id="upload-file" type='file' accept='.png, .jpg, .jpeg' hidden onChange={handleUploadFile}/>
             </div>
             <span ref={profileImgSpanRef}>No file choosen</span>
           </div>
