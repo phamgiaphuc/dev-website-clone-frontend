@@ -61,6 +61,7 @@ const ProfilePage = () => {
       }
     };
     await userUpdateProfile(user, userData, dispatch, axiosJWT);
+    setColorPicker(false);
   }
 
   return (
@@ -143,7 +144,7 @@ const ProfilePage = () => {
         </div>
         <div className="relative w-1/2">
           <input maxLength={7} ref={inputColorRef} placeholder="Color" defaultValue={color} onChange={handleInputColorChange} className="pr-2 py-1.5 w-full rounded-md ring-1 ring-gray-300 placeholder-gray-600 focus:ring-2 hover:ring-gray-500 focus:outline-none focus:ring-indigo-600 pl-10"/>
-          <button onClick={() => setColorPicker(!colorPicker)} style={{ backgroundColor: color }} className={`absolute h-8 left-0.5 top-0.5 w-8 rounded-md cursor-pointer`}></button>
+          <div onClick={() => setColorPicker(!colorPicker)} style={{ backgroundColor: color }} className={`absolute h-8 left-0.5 top-0.5 w-8 rounded-md cursor-pointer`}></div>
           {
             colorPicker &&
             <HexColorPicker color={color} onChange={handleColorChange} className="absolute top-1"/>

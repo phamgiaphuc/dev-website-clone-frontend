@@ -29,13 +29,12 @@ export const createAxios = (user, dispatch) => {
   newInstance.interceptors.request.use(
     async (config) => {
       const date = new Date();
+      let accessToken = user.accessToken;
       const decodedToken = jwtDecode(user?.accessToken);
       if (decodedToken.exp < (date.getTime() / 1000)) {
-        const data = await refreshToken(user, dispatch);
-        config.headers['Authorization'] = 'Bearer ' + data;
-      } else {
-        config.headers['Authorization'] = 'Bearer ' + user?.accessToken;
+        accessToken = await refreshToken(user, dispatch);
       }
+      config.headers['Authorization'] = `Bearer ${accessToken}`;
       return config;
     },
     (err) => {

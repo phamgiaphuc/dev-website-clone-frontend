@@ -82,7 +82,7 @@ const SignUpPage = () => {
             <input {...register('confirm_password', {
               required: true,
               validate: (value) => {
-                if (watch('password') === value) { 
+                if (watch('password') !== value) { 
                   return 'Passwords do not match'
                 }
               }

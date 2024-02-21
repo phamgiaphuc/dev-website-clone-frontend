@@ -71,9 +71,10 @@ export const authVerification = async (id, code, dispatch, navigate) => {
     toast.success('Sign in 👍');
     navigate('/');
   } catch ({ response: {data}}) {
+    console.log(data);
     dispatch(verificationFailed());
     toast.dismiss(loadingToast);
-    toast.error(data.error);
+    toast.error(data.error[0]?.msg);
   }
 }
 

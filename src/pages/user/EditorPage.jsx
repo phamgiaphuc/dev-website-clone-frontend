@@ -65,7 +65,7 @@ const EditorPage = () => {
                 onKeyDown={handleTitleKeyDown}
                 onChange={handleTitleChange}
               />
-              <div className="flex gap-2 items-center">
+              <div className="flex gap-2 items-center flex-wrap">
                 {
                   tags.map((tag, index) => {
                     return (
