@@ -10,25 +10,24 @@ import { useDispatch } from 'react-redux';
 
 const SignUpPage = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const [passwordMatch, setPasswordMatch] = useState(false);
   const { register, handleSubmit, watch } = useForm();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const onSubmitForm = async (credentials) => {
-    if (passwordMatch === false) {
-      return toast.error('Passwords do not match.');
-    }
     await authSignUp(credentials, dispatch, navigate)
   }
 
   const onErrors = (errors) => {
-    const { email, password } = errors;
+    const { email, password, confirm_password } = errors;
     if (email) {
       toast.error(email.message);
     }
     if (password) {
       toast.error(password.message);
+    }
+    if (confirm_password) {
+      toast.error(confirm_password.message);
     }
   }
 
@@ -50,7 +49,10 @@ const SignUpPage = () => {
           <div className="flex flex-col mt-4 gap-1">
             <span className="font-medium">Email</span>
             <input {...register('email', {
-              required: true,
+              required: {
+                value: true,
+                message: 'Email is missing'
+              },
               pattern: {
                 value: emailRegex,
                 message: 'Invalid email'
@@ -80,7 +82,9 @@ const SignUpPage = () => {
             <input {...register('confirm_password', {
               required: true,
               validate: (value) => {
-                if (watch('password') === value) { setPasswordMatch(true) }
+                if (watch('password') === value) { 
+                  return 'Passwords do not match'
+                }
               }
             })} type="password" placeholder='Password'/>
           </div>

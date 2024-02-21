@@ -1,10 +1,9 @@
 import { createAxios } from "@/common/axiosJWT";
 import { emailRegex } from "@/constants/regexVars";
-import { userUpdateProfile } from "@/redux/userApi";
+import { userUpdateProfile, userUploadProfileImg } from "@/redux/userApi";
 import { useRef, useState } from "react";
 import { HexColorPicker } from "react-colorful";
 import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux"
 
 const ProfilePage = () => {
@@ -33,29 +32,7 @@ const ProfilePage = () => {
 
   const handleUploadFile = async (event) => {
     event.preventDefault();
-    const loadingToast = toast.loading('Uploading image');
-    let img = event.target.files[0];
-    if (img === '') {
-      toast.dismiss(loadingToast);
-      return toast.error('No images found');
-    }
-    profileImgSpanRef.current.innerText = img.name;
-    const formData = new FormData();
-    formData.append('profile_img', img);
-    try {
-      const { data } = await axiosJWT.post('/v1/users/upload-profile-img', formData, {
-        headers: {
-          "Content-Type": "multipart/form-data"
-        }
-      });
-      setImgUrl(data?.url);
-      toast.dismiss(loadingToast);
-      toast.success('Uploaded 👍');
-    } catch (error) {
-      console.log(error);
-      toast.dismiss(loadingToast);
-      toast.error('Uploaded fail');
-    }
+    await userUploadProfileImg(profileImgSpanRef, setImgUrl, axiosJWT)
   }
 
   const handleColorChange = (color) => {
@@ -123,7 +100,7 @@ const ProfilePage = () => {
       <div className="w-full p-4 rounded-md border border-gray-200 bg-white flex flex-col">
         <span className="mb-4 text-xl font-semibold">Basic</span>
         <span className="font-medium mb-1">Bio</span>
-        <textarea placeholder="A short bio" maxLength={250} onChange={(event) => setBio(event.target.value)} className="mb-1" defaultValue={user.profile?.bio}></textarea>
+        <textarea placeholder="A short bio" maxLength={250} onChange={(event) => setBio(event.target.value)} className="mb-1 text-area-form" defaultValue={user.profile?.bio}></textarea>
         <div className="flex text-sm text-gray-600 justify-end mb-2">
           <span>{bio.length}</span>/250
         </div>

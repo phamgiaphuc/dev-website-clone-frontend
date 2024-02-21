@@ -22,7 +22,7 @@ const Header = () => {
             <FaBars className='h-6 w-6' />
           </div>
           <Link to={'/'}> 
-            <img src="https://dev-to-uploads.s3.amazonaws.com/uploads/logos/resized_logo_UQww2soKuUsjaOGNB38o.png" alt="Dev Logo" className="h-10 w-13" />
+            <img src="https://dev-to-uploads.s3.amazonaws.com/uploads/logos/resized_logo_UQww2soKuUsjaOGNB38o.png" alt="Dev Logo" className="h-10 w-12" />
           </Link>
           <div className='mx-4 w-96 relative hidden md:block'>
             <input type="text" placeholder='Search...' />

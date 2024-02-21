@@ -6,8 +6,16 @@
   background-color: rgb(244 244 245);
 }
 
-input[type='text'], input[type='password'], input[type='email'], input[type='url'], textarea {
+input[type='text'], input[type='password'], input[type='email'], input[type='url'] {
   @apply px-2 py-1.5 w-full rounded-md ring-1 ring-gray-300 placeholder-gray-600 focus:ring-2 hover:ring-gray-500 focus:outline-none focus:ring-indigo-600
+}
+
+.text-area-form {
+  @apply px-2 py-1.5 w-full rounded-md ring-1 ring-gray-300 placeholder-gray-600 focus:ring-2 hover:ring-gray-500 focus:outline-none focus:ring-indigo-600
+}
+
+.input-add-tag {
+  @apply pr-2 pl-7 py-1.5 w-full rounded-md ring-1 ring-gray-300 placeholder-gray-600 focus:ring-2 hover:ring-gray-500 focus:outline-none focus:ring-indigo-600
 }
 
 .react-colorful {

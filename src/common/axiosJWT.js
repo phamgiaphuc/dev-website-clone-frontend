@@ -1,5 +1,5 @@
 import { refreshFailed, refreshStart, refreshSuccess } from "@/redux/authSlice";
-import { userRefresh } from "@/redux/userSlice";
+import { userRefresh, userSignOut } from "@/redux/userSlice";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import toast from "react-hot-toast";
@@ -19,6 +19,7 @@ const refreshToken = async (user, dispatch) => {
     return data.accessToken;
   } catch ({ response: {data}}) {
     dispatch(refreshFailed());
+    dispatch(userSignOut());
     toast.error(data.error);
   }
 };

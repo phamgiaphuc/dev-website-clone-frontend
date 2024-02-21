@@ -3,9 +3,9 @@ import SignInPage from './pages/SignInPage'
 import SignUpPage from './pages/SignUpPage'
 import VerificationPage from './pages/VerificationPage'
 import HomePage from './pages/HomePage'
-import DashboardPage from './pages/user/DashboardPage'
-import EditorPage from './pages/user/EditorPage'
-import ReadingListPage from './pages/user/ReadingListPage'
+import DashboardPage from './pages/User/DashboardPage'
+import EditorPage from './pages/User/EditorPage'
+import ReadingListPage from './pages/User/ReadingListPage'
 import axios from 'axios'
 import { SERVER_BASE_URL } from './constants/vars'
 import { Provider } from 'react-redux'
@@ -15,13 +15,13 @@ import UserProtectedRoute from './components/UserProtectedRoute'
 import { PersistGate } from 'redux-persist/integration/react'
 import MainLayout from './layouts/MainLayout'
 import SettingsLayout from './layouts/SettingsLayout'
-import UserPage from './pages/user/UserPage'
-import CustomizationPage from './pages/settings/CustomizationPage'
-import ProfilePage from './pages/settings/ProfilePage'
-import NotificationsPage from './pages/settings/NotificationsPage'
-import AccountPage from './pages/settings/AccountPage'
-import OrganizationPage from './pages/settings/OrganizationPage'
-import ExtensionsPage from './pages/settings/ExtensionsPage'
+import UserPage from './pages/User/UserPage'
+import CustomizationPage from './pages/Settings/CustomizationPage'
+import ProfilePage from './pages/Settings/ProfilePage'
+import NotificationsPage from './pages/Settings/NotificationsPage'
+import AccountPage from './pages/Settings/AccountPage'
+import OrganizationPage from './pages/Settings/OrganizationPage'
+import ExtensionsPage from './pages/Settings/ExtensionsPage'
 
 axios.defaults.baseURL = SERVER_BASE_URL;
 axios.defaults.withCredentials = true;
@@ -41,7 +41,6 @@ const App = () => {
             <Route element={<UserProtectedRoute />}>
               <Route path=':username' element={<UserPage />} />
               <Route path='dashboard' element={<DashboardPage />} />
-              <Route path='new' element={<EditorPage />} />
               <Route path='readinglist' element={<ReadingListPage />} />
               <Route path='settings' element={<SettingsLayout />}>
                 <Route index element={<ProfilePage />} />
@@ -53,6 +52,9 @@ const App = () => {
                 <Route path='extensions' element={<ExtensionsPage />} />
               </Route>
             </Route>
+          </Route>
+          <Route element={<UserProtectedRoute />}>
+            <Route path='/new' element={<EditorPage />} />
           </Route>
         </Routes>
       </PersistGate>

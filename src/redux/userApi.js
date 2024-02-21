@@ -21,3 +21,29 @@ export const userUpdateProfile = async (user, userData, dispatch, axiosJWT) => {
     toast.dismiss(loadingToast);
   }
 }
+
+export const userUploadProfileImg = async (profileImgSpanRef, setImgUrl, axiosJWT) => {
+  const loadingToast = toast.loading('Uploading image');
+    let img = event.target.files[0];
+    if (img === '') {
+      toast.dismiss(loadingToast);
+      return toast.error('No images found');
+    }
+    const formData = new FormData();
+    formData.append('profile_img', img);
+    try {
+      const { data } = await axiosJWT.post('/v1/users/upload-profile-img', formData, {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+      });
+      setImgUrl(data?.url);
+      profileImgSpanRef.current.innerText = img.name;
+      toast.dismiss(loadingToast);
+      toast.success('Uploaded 👍');
+    } catch (error) {
+      console.log(error);
+      toast.dismiss(loadingToast);
+      toast.error(error);
+    }
+}
