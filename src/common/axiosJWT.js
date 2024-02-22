@@ -8,7 +8,6 @@ const refreshToken = async (user, dispatch) => {
   dispatch(refreshStart());
   try {
     const { data } = await axios.get("/v1/auth/refresh-token");
-    console.log(data);
     const refreshUser = {
       ...user,
       accessToken: data.accessToken,

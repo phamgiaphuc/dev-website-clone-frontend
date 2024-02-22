@@ -1,4 +1,4 @@
-import SettingsNavigation from "@/components/SettingsNavigation";
+import SettingsNavigation from "@/components/navigations/SettingsNavigation";
 import { useSelector } from "react-redux"
 import { Outlet } from "react-router-dom";
 

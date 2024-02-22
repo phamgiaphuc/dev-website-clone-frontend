@@ -32,7 +32,7 @@ const ProfilePage = () => {
 
   const handleUploadFile = async (event) => {
     event.preventDefault();
-    await userUploadProfileImg(profileImgSpanRef, setImgUrl, axiosJWT)
+    await userUploadProfileImg(profileImgSpanRef, setImgUrl, axiosJWT, event)
   }
 
   const handleColorChange = (color) => {

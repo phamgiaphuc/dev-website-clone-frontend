@@ -3,7 +3,7 @@ import { IoSearchOutline } from "react-icons/io5";
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
 import { FaRegBell } from "react-icons/fa";
-import UserNavigation from './UserNavigation';
+import UserNavigation from '../navigations/UserNavigation';
 import { FaBars } from "react-icons/fa";
 
 const Header = () => {

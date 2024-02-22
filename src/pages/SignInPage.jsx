@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 import { emailRegex, passwordRegex } from '@/constants/regexVars';
 import { useState } from 'react';
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
-import GoogleAuthBtn from '@/components/GoogleAuthBtn';
+import GoogleAuthBtn from '@/components/buttons/GoogleAuthBtn';
 import { authSignIn } from '@/redux/authApi';
 import { useDispatch } from 'react-redux';
 

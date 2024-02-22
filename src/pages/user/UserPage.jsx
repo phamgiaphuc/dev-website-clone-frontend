@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { IoDocumentTextOutline, IoChatbubbleOutline } from "react-icons/io5";
 import { CiHashtag } from "react-icons/ci";
-import SubCard from "@/components/SubCard";
+import SubCard from "@/components/cards/SubCard";
 import { BiSortDown, BiSortUp } from "react-icons/bi";
 
 const UserPage = () => {
