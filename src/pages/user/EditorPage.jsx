@@ -3,6 +3,7 @@ import { IoClose } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
 import EditorComponent from "@/components/editor/EditorComponent";
 import PreviewComponent from "@/components/editor/PreviewComponent";
+import toast from "react-hot-toast";
 
 export const EditorContext = createContext({});
 
@@ -10,7 +11,7 @@ const blogStructure = {
   title: '',
   cover_image: '',
   content: [],
-  tag_list: [],
+  tags: [],
   description: ''
 }
 
@@ -18,9 +19,29 @@ const EditorPage = () => {
   const navigate = useNavigate();
   const [editorState, setEditorState] = useState('edit');
   const [blog, setBlog] = useState(blogStructure);
+  const [textEditor, setTextEditor] = useState({ isReady: false });
+
+  const handlePublishBtn = () => {
+    if (!blog.cover_image) {
+      return toast.error('Upload a cover image to publish it');
+    }
+    if (!blog.title) {
+      return toast.error('Write a title to publish it');
+    }
+    if (textEditor.isReady) {
+      textEditor.save().then((data) => {
+        if (data.blocks.length) {
+          setBlog({...blog, content: data })
+          setEditorState('preview');
+        } else {
+          return toast.error('Write some content to publish it');
+        }
+      })
+    }
+  }
 
   return (
-    <EditorContext.Provider value={{blog, setBlog}}>
+    <EditorContext.Provider value={{blog, setBlog, textEditor, setTextEditor}}>
       <div className="relative font-light">
         <div className="w-screen max-w-screen-xl mx-auto min-h-screen flex gap-4">
           <div className="max-w-[886px] w-full flex flex-col">
@@ -43,7 +64,7 @@ const EditorPage = () => {
               <PreviewComponent />
             }
             <div className="ml-16 flex gap-2 my-6">
-              <button className='py-2 px-4 rounded-md text-white bg-indigo-600 hover:bg-indigo-700 hover:underline hover:underline-offset-2'>
+              <button onClick={handlePublishBtn} className='py-2 px-4 rounded-md text-white bg-indigo-600 hover:bg-indigo-700 hover:underline hover:underline-offset-2'>
                 Publish
               </button>
               <button className="py-2 px-4 rounded-md hover:bg-indigo-100 hover:text-indigo-600 hover:underline hover:underline-offset-2">

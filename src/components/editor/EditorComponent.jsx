@@ -1,21 +1,16 @@
-import { createAxios } from "@/common/axiosJWT";
 import { generateRandomColor, randomColors } from "@/common/generateRandomColor";
-import { blogUploadCoverImg } from "@/redux/blogApi";
-import { useContext, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { blogUploadImg } from "@/redux/blogApi";
+import { useContext, useState } from "react";
 import { MdNumbers } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
 import { EditorContext } from "@/pages/user/EditorPage";
-import EditorJS from "@editorjs/editorjs";
-import { editorTools } from "@/common/editorTools";
+import Editor from "./Editor";
+import { UserContext } from "../context/UserContextProvider";
 
 const EditorComponent = () => {
-  const { blog, blog: { title, cover_image, content, tag_list, description }, setBlog } = useContext(EditorContext);
-  const user = useSelector((state) => state.user.data);
-  const dispatch = useDispatch();
-  const axiosJWT = createAxios(user, dispatch);
+  const { blog, blog: { cover_image, title, tags }, setBlog } = useContext(EditorContext);
+  const { axiosJWT } = useContext(UserContext);
   const [addTagInput, setAddTagInput] = useState(false);
-  const [tags, setTags] = useState([]);
 
   const handleTitleKeyDown = (event) => {
     if (event.keyCode === 13) {
@@ -40,35 +35,28 @@ const EditorComponent = () => {
         value: `#${event.target.value}`,
         color
       }
-      setTags([...tags, tag]);
+      setBlog({
+        ...blog,
+        tags: [...tags, tag]
+      })
       setAddTagInput(false);
     }
   }
 
   const handleDeleteTagBtn = (value) => {
-    setTags(tags.filter((_, index) => index !== value));
+    setBlog({
+      ...blog,
+      tags: tags.filter((_, index) => index !== value)
+    })
   }
 
   const handleUploadCoverImg = async (event) => {
     event.preventDefault();
-    await blogUploadCoverImg(setBlog, blog, axiosJWT, event);
-  }
-
-  useEffect(() => {
-    const editor = new EditorJS({
-      holder: 'editor-js',
-      data: {},
-      placeholder: 'Enter some text here',
-      tools: editorTools
+    setBlog({
+      ...blog,
+      cover_image: await blogUploadImg(axiosJWT, event.target.files[0])
     });
-    editor.isReady
-      .then(() => {
-        console.log('Editor.js is ready to work!');
-      })
-      .catch((error) => {
-        console.log(`Editor.js initialization failed because of ${error}`);
-      });
-  }, [])
+  }
 
   return (
     <div className="ml-16 h-full bg-white flex flex-col rounded-md border border-gray-200 overflow-hidden">
@@ -94,6 +82,7 @@ const EditorComponent = () => {
           className="text-5xl font-bold outline-none border-none h-fit leading-tight resize-none text-pretty placeholder:text-gray-800 focus:placeholder:opacity-60"
           onKeyDown={handleTitleKeyDown}
           onChange={handleTitleChange}
+          value={title}
         />
         <div className="flex gap-2 items-center flex-wrap">
           {
@@ -129,7 +118,7 @@ const EditorComponent = () => {
             </>
           }
         </div>
-        <div id="editor-js" className="editor-js-css bg-blue-200"></div>
+        <Editor />
       </div>
     </div>
   )
