@@ -1,4 +1,4 @@
-<h1 align="center">MERN DEV Clone Website - Backend</h1>
+<h1 align="center">MERN DEV Clone Website - Frontend</h1>
 
 ## Contents
 
