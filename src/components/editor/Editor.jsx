@@ -15,7 +15,7 @@ import { EditorContext } from "@/pages/user/EditorPage";
 
 const Editor = () => {
   const { axiosJWT } = useContext(UserContext);
-  const { setTextEditor } = useContext(EditorContext);
+  const { setTextEditor, blog: { content } } = useContext(EditorContext);
 
   const uploadImageByUrl = async (event) => {
     const link = new Promise((resolve, reject) => {
@@ -86,7 +86,7 @@ const Editor = () => {
   useEffect(() => {
     setTextEditor(new EditorJS({
       holder: 'editor-js',
-      data: {},
+      data: content,
       placeholder: 'Enter some text here',
       tools: editorTools
     }));

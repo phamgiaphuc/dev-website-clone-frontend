@@ -6,13 +6,13 @@ import PreviewComponent from "@/components/editor/PreviewComponent";
 import toast from "react-hot-toast";
 
 export const EditorContext = createContext({});
-
 const blogStructure = {
   title: '',
   cover_image: '',
   content: [],
   tags: [],
-  description: ''
+  description: '',
+  date: Date.now()
 }
 
 const EditorPage = () => {
@@ -21,22 +21,24 @@ const EditorPage = () => {
   const [blog, setBlog] = useState(blogStructure);
   const [textEditor, setTextEditor] = useState({ isReady: false });
 
-  const handlePublishBtn = () => {
+  const handlePreviewPublishBtn = () => {
     if (!blog.cover_image) {
-      return toast.error('Upload a cover image to publish it');
+      return toast.error('Upload a cover image to preview and publish it');
     }
     if (!blog.title) {
-      return toast.error('Write a title to publish it');
+      return toast.error('Write a title to preview and publish it');
     }
-    if (textEditor.isReady) {
+    if (textEditor.isReady && editorState === 'edit') {
       textEditor.save().then((data) => {
         if (data.blocks.length) {
-          setBlog({...blog, content: data })
+          setBlog({...blog, content: data})
           setEditorState('preview');
         } else {
-          return toast.error('Write some content to publish it');
+          return toast.error('Write some content to preview and publish it');
         }
       })
+    } else {
+      console.log('Publish form');
     }
   }
 
@@ -54,7 +56,7 @@ const EditorPage = () => {
               </div>
               <div className="flex h-fit mt-auto mb-1 gap-2">
                 <button onClick={() => setEditorState('edit')} className={`py-2 px-4 rounded-md hover:bg-indigo-100 hover:text-indigo-600 hover:underline hover:underline-offset ${editorState === 'edit' ? 'font-semibold' : ''}`}>Edit</button>
-                <button onClick={() => setEditorState('preview')} className={`py-2 px-4 rounded-md hover:bg-indigo-100 hover:text-indigo-600 hover:underline hover:underline-offset-2 ${editorState === 'preview' ? 'font-semibold' : ''}`}>Preview</button>
+                <button onClick={handlePreviewPublishBtn} className={`py-2 px-4 rounded-md hover:bg-indigo-100 hover:text-indigo-600 hover:underline hover:underline-offset-2 ${editorState === 'preview' ? 'font-semibold' : ''}`}>Preview</button>
               </div>
             </div>
             {
@@ -64,7 +66,7 @@ const EditorPage = () => {
               <PreviewComponent />
             }
             <div className="ml-16 flex gap-2 my-6">
-              <button onClick={handlePublishBtn} className='py-2 px-4 rounded-md text-white bg-indigo-600 hover:bg-indigo-700 hover:underline hover:underline-offset-2'>
+              <button onClick={handlePreviewPublishBtn} className='py-2 px-4 rounded-md text-white bg-indigo-600 hover:bg-indigo-700 hover:underline hover:underline-offset-2'>
                 Publish
               </button>
               <button className="py-2 px-4 rounded-md hover:bg-indigo-100 hover:text-indigo-600 hover:underline hover:underline-offset-2">

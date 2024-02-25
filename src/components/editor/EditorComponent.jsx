@@ -59,7 +59,7 @@ const EditorComponent = () => {
   }
 
   return (
-    <div className="ml-16 h-full bg-white flex flex-col rounded-md border border-gray-200 overflow-hidden">
+    <div className="ml-16 h-fit bg-white flex flex-col rounded-md border border-gray-200 overflow-hidden">
       {
         cover_image ?
         <div className="h-[320px] flex relative">
@@ -79,7 +79,7 @@ const EditorComponent = () => {
         <textarea 
           placeholder="New post title here..."
           rows={1}
-          className="text-5xl font-bold outline-none border-none h-fit leading-tight resize-none text-pretty placeholder:text-gray-800 focus:placeholder:opacity-60"
+          className="text-5xl h-fit font-bold outline-none border-none leading-tight resize-none text-pretty placeholder:text-gray-800 focus:placeholder:opacity-60"
           onKeyDown={handleTitleKeyDown}
           onChange={handleTitleChange}
           value={title}
