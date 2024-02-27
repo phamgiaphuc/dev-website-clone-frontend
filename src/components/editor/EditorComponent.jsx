@@ -8,7 +8,7 @@ import Editor from "./Editor";
 import { UserContext } from "../context/UserContextProvider";
 
 const EditorComponent = () => {
-  const { blog, blog: { cover_image, title, tags }, setBlog } = useContext(EditorContext);
+  const { blog, blog: { cover_image, title, tags }, setBlog, setMouseFocus } = useContext(EditorContext);
   const { axiosJWT } = useContext(UserContext);
   const [addTagInput, setAddTagInput] = useState(false);
 
@@ -76,13 +76,14 @@ const EditorComponent = () => {
           <input id="upload-cover-img" type='file' accept='.png, .jpg, .jpeg' hidden onChange={handleUploadCoverImg} />
         </label>
       }
-      <div className="flex flex-col gap-4 py-6 px-10">
+      <div className="relative flex flex-col gap-4 py-6 px-10">
         <textarea 
           placeholder="New post title here..."
           rows={1}
           className="text-5xl h-fit font-bold outline-none border-none leading-tight resize-none text-pretty placeholder:text-gray-800 focus:placeholder:opacity-60"
           onKeyDown={handleTitleKeyDown}
           onChange={handleTitleChange}
+          onFocus={() => setMouseFocus('blog_title')}
           value={title}
         />
         <div className="flex gap-2 items-center flex-wrap">
@@ -101,7 +102,7 @@ const EditorComponent = () => {
           {
             addTagInput &&
             <div className="relative flex items-center gap-2 w-1/3">
-              <input className="input-add-tag" onKeyDown={handleTagKeyDown}/>
+              <input className="input-add-tag" onFocus={() => setMouseFocus('blog_tags')} onKeyDown={handleTagKeyDown}/>
               <MdNumbers className="w-6 h-6 absolute left-1" />
               <IoClose onClick={() => setAddTagInput(false)} className="w-6 h-6 absolute right-1 cursor-pointer hover:fill-red-600" />
             </div>
@@ -110,7 +111,10 @@ const EditorComponent = () => {
             tags.length < 4 
             &&
             <>
-              <button onClick={() => setAddTagInput(!addTagInput)} className={`py-2 px-4 rounded-md text-white bg-indigo-600 hover:bg-indigo-700 hover:underline hover:underline-offset-2 ${addTagInput ? 'hidden' : 'block'}`}>
+              <button onClick={() => {
+                setAddTagInput(!addTagInput);
+                setMouseFocus('blog_tags');
+              }} className={`py-2 px-4 rounded-md text-white bg-indigo-600 hover:bg-indigo-700 hover:underline hover:underline-offset-2 ${addTagInput ? 'hidden' : 'block'}`}>
                 Add tag
               </button>
               <span className="text-gray-600">

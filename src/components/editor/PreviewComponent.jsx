@@ -34,13 +34,17 @@ const PreviewComponent = () => {
             </div>
           }
         </div>
-        {
-          content?.blocks.map((block, index) => {
-            return <div key={index}>
-              <BlogContent block={block}/>
-            </div>
-          })
-        }
+        <div className="flex flex-col gap-2">
+          {
+            content?.blocks.map((block, index) => {
+              return (
+                <div key={index} className={block.type === 'heading' && index === 0 && '-mt-2'}>
+                  <BlogContent block={block}/>
+                </div>
+              )
+            })
+          }
+        </div>
       </div>
     </div>
   )

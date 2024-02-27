@@ -14,7 +14,7 @@ import { EditorContext } from "@/pages/user/EditorPage";
 
 const Editor = () => {
   const { axiosJWT } = useContext(UserContext);
-  const { setTextEditor, blog: { content } } = useContext(EditorContext);
+  const { setTextEditor, blog: { content }, setMouseFocus } = useContext(EditorContext);
 
   const uploadImageByUrl = async (event) => {
     const link = new Promise((resolve, reject) => {
@@ -89,7 +89,7 @@ const Editor = () => {
   }, [])
 
   return (
-    <div id="editor-js" className="editor-js-css bg-blue-200"></div>
+    <div id="editor-js" className="editor-js-css" onFocus={() => setMouseFocus('blog_content')}></div>
   )
 }
 

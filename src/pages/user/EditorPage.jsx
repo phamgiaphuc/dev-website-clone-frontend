@@ -20,6 +20,7 @@ const EditorPage = () => {
   const [editorState, setEditorState] = useState('edit');
   const [blog, setBlog] = useState(blogStructure);
   const [textEditor, setTextEditor] = useState({ isReady: false });
+  const [mouseFocus, setMouseFocus] = useState('');
 
   const handlePreviewPublishBtn = () => {
     // if (!blog.cover_image) {
@@ -43,8 +44,8 @@ const EditorPage = () => {
   }
 
   return (
-    <EditorContext.Provider value={{blog, setBlog, textEditor, setTextEditor}}>
-      <div className="relative font-light">
+    <EditorContext.Provider value={{blog, setBlog, textEditor, setTextEditor, mouseFocus, setMouseFocus}}>
+      <div className="font-light">
         <div className="w-screen max-w-screen-xl mx-auto min-h-screen flex gap-4">
           <div className="max-w-[886px] w-full flex flex-col">
             <div className="flex justify-between">
@@ -74,8 +75,41 @@ const EditorPage = () => {
               </button>
             </div>
           </div>
-          <div className="bg-blue-200 flex-1">
-            Instructions
+          <div className="relative flex-1">
+            {
+              mouseFocus === 'blog_title'
+              &&
+              <div className="absolute left-0 top-40 w-full flex flex-col gap-2">
+                <span className="text-lg font-semibold">Writing a Great Post Title</span>
+                <ul className="list-disc list-outside text-pretty text-gray-600 space-y-2 ml-6">
+                  <li>Think of your post title as a super short (but compelling!) description — like an overview of the actual post in one short sentence.</li>
+                  <li>Use keywords where appropriate to help ensure people can find your post by search.</li>
+                </ul>
+              </div>
+            }
+            {
+              mouseFocus === 'blog_tags'
+              &&
+              <div className="absolute left-0 top-60 w-full flex flex-col gap-2">
+                <span className="text-lg font-semibold">Tagging Guidelines</span>
+                <ul className="list-disc list-outside text-pretty text-gray-600 space-y-2 ml-6">
+                  <li>Tags help people find your post - think of them as the topics or categories that best describe your post.</li>
+                  <li>Add up to four comma-separated tags per post. Use existing tags whenever possible.</li>
+                  <li>Some tags have special posting guidelines - double check to make sure your post complies with them.</li>
+                </ul>
+              </div>
+            }
+            {
+              mouseFocus === 'blog_content'
+              &&
+              <div className="absolute left-0 top-72 w-full flex flex-col gap-2">
+                <span className="text-lg font-semibold">Editor Basics</span>
+                <ul className="list-disc list-outside text-pretty text-gray-600 space-y-2 ml-6">
+                  <li>Structure your content using appropriate headings, and proofread for spelling and grammar errors before publishing.</li>
+                  <li>Explore different block types, collaborate effectively, and respect copyrights and guidelines when adding external media.</li>
+                </ul>
+              </div>
+            }
           </div>
         </div>
         <button onClick={() => navigate(-1)} className="absolute right-0 top-0 m-2 p-2 rounded-md hover:bg-indigo-100 hover:text-indigo-600">
