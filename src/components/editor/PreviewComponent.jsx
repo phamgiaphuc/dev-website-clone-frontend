@@ -3,10 +3,11 @@ import { randomColors } from "@/common/generateRandomColor";
 import { EditorContext } from "@/pages/user/EditorPage"
 import { useContext } from "react"
 import { useSelector } from "react-redux";
+import BlogContent from "../blog/BlogContent";
 
 const PreviewComponent = () => {
   const { profile: { profile_img, username, fullname }} = useSelector((state) => state.user.data)
-  const { blog: { cover_image, title, tags, content, description, date }} = useContext(EditorContext);
+  const { blog: { cover_image, title, tags, content, date }} = useContext(EditorContext);
   return (
     <div className="ml-16 bg-white flex flex-col rounded-md border border-gray-300 overflow-hidden">
       <img src={cover_image} className="h-[320px] object-cover"/>
@@ -18,16 +19,28 @@ const PreviewComponent = () => {
             <span className="text-sm text-gray-600">{formatDate(date)}</span>
           </div>
         </div>
-        <span className="text-5xl font-bold leading-tight">{title}</span>
-        <div className="flex gap-2 items-center flex-wrap">
+        <div className="flex flex-col gap-1">
+          <span className="text-5xl font-bold leading-tight">{title}</span>
           {
-            tags.map((tag, index) => 
-              <div key={index} className={`${randomColors[tag.color]}`}>
-                {tag.value}
-              </div>
-            )
+            tags.length > 0 &&
+            <div className="flex gap-2 items-center flex-wrap">
+              {
+                tags.map((tag, index) => 
+                  <div key={index} className={`${randomColors[tag.color]}`}>
+                    {tag.value}
+                  </div>
+                )
+              }
+            </div>
           }
         </div>
+        {
+          content?.blocks.map((block, index) => {
+            return <div key={index}>
+              <BlogContent block={block}/>
+            </div>
+          })
+        }
       </div>
     </div>
   )

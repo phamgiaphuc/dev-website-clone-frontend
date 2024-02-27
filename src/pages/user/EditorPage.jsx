@@ -22,12 +22,12 @@ const EditorPage = () => {
   const [textEditor, setTextEditor] = useState({ isReady: false });
 
   const handlePreviewPublishBtn = () => {
-    if (!blog.cover_image) {
-      return toast.error('Upload a cover image to preview and publish it');
-    }
-    if (!blog.title) {
-      return toast.error('Write a title to preview and publish it');
-    }
+    // if (!blog.cover_image) {
+    //   return toast.error('Upload a cover image to preview and publish it');
+    // }
+    // if (!blog.title) {
+    //   return toast.error('Write a title to preview and publish it');
+    // }
     if (textEditor.isReady && editorState === 'edit') {
       textEditor.save().then((data) => {
         if (data.blocks.length) {

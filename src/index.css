@@ -23,5 +23,7 @@ input[type='text'], input[type='password'], input[type='email'], input[type='url
 }
 
 .ce-header {
-  @apply m-0
+  @apply mt-0 mb-2
 }
+
+/* .codex-editor__redactor { padding-bottom: 200px !important; } */

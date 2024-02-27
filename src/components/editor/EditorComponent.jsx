@@ -19,6 +19,7 @@ const EditorComponent = () => {
   }
 
   const handleTitleChange = (event) => {
+    event.preventDefault();
     let input = event.target;
     input.style.height = 'auto';
     input.style.height = input.scrollHeight + 'px';

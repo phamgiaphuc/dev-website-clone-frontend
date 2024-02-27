@@ -6,7 +6,6 @@ import Header from '@editorjs/header';
 import Paragraph from '@editorjs/paragraph';
 import Quote from '@editorjs/quote';
 import List from "@editorjs/list";
-import Checklist from '@editorjs/checklist';
 import ImageTool from '@editorjs/image';
 import Embed from '@editorjs/embed';
 import Marker from '@editorjs/marker';
@@ -58,9 +57,6 @@ const Editor = () => {
     },
     list: {
       class: List,
-    },
-    checklist: {
-      class: Checklist,
     },
     image: {
       class: ImageTool,
