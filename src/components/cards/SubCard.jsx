@@ -13,12 +13,12 @@ const SubCard = ({profile_img, username, fullname, blog}) => {
         <img src={profile_img} alt={username} className="w-10 h-10 rounded-full mr-2"/>
         <div className="flex justify-between flex-col">
           <span className="font-medium">{fullname}</span>
-          <span className="text-sm text-gray-600">{formatDate(blog.createdAt)}</span>
+          <span className="text-sm text-gray-600 font-light">{formatDate(blog.createdAt)}</span>
         </div>
       </div>
       <div className="ml-12 mt-2 flex flex-col gap-1">
-        <span className="text-xl font-semibold group-hover:text-indigo-600">{blog.title}</span>
-        <div className="flex gap-2">
+        <span className="text-xl font-semibold group-hover:text-indigo-600 mr-2">{blog.title}</span>
+        <div className="flex gap-2 text-sm">
           {
             blog.tags.map((tag, index) => {
               return (
