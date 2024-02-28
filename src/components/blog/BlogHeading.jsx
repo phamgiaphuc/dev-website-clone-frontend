@@ -1,5 +1,4 @@
 const BlogHeading = ({text, level}) => {
-  console.log(text, level);
   switch(level) {
     case 1: 
       return <h1 className="mt-2 text-4xl font-bold" dangerouslySetInnerHTML={{ __html: text}}></h1>;

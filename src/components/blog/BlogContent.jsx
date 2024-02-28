@@ -14,7 +14,6 @@ const BlogContent = ({block}) => {
 
   if (type === 'heading') {
     const { text, level } = data;
-    console.log(text, level);
     return <BlogHeading text={text} level={level}/>
   }
 

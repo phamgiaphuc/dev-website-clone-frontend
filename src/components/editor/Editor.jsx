@@ -10,6 +10,7 @@ import ImageTool from '@editorjs/image';
 import Embed from '@editorjs/embed';
 import Marker from '@editorjs/marker';
 import CodeTool from '@editorjs/code';
+import InlineCode from '@editorjs/inline-code';
 import { EditorContext } from "@/pages/user/EditorPage";
 
 const Editor = () => {
@@ -72,11 +73,13 @@ const Editor = () => {
     },
     marker: {
       class: Marker,
-      inlineToolbar: true
     },
     code: {
       class: CodeTool,
-    }
+    },
+    inlineCode: {
+      class: InlineCode,
+    },
   }
 
   useEffect(() => {

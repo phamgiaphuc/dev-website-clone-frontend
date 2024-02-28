@@ -22,6 +22,7 @@ import NotificationsPage from './pages/settings/NotificationsPage'
 import AccountPage from './pages/settings/AccountPage'
 import OrganizationPage from './pages/settings/OrganizationPage'
 import ExtensionsPage from './pages/settings/ExtensionsPage'
+import BlogPage from './pages/user/BlogPage'
 
 axios.defaults.baseURL = SERVER_BASE_URL;
 axios.defaults.withCredentials = true;
@@ -40,6 +41,7 @@ const App = () => {
             </Route>
             <Route element={<UserProtectedRoute />}>
               <Route path=':username' element={<UserPage />} />
+              <Route path=':username/:blogId' element={<BlogPage />} />
               <Route path='dashboard' element={<DashboardPage />} />
               <Route path='readinglist' element={<ReadingListPage />} />
               <Route path='settings' element={<SettingsLayout />}>

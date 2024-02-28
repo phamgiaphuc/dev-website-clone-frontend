@@ -59,24 +59,35 @@ const EditorComponent = () => {
     });
   }
 
+  const handleDeleteCoverImg = async (event) => {
+    event.preventDefault();
+    setBlog({
+      ...blog,
+      cover_image: ''
+    })
+  }
+
   return (
     <div className="ml-16 h-fit bg-white flex flex-col rounded-md border border-gray-200 overflow-hidden">
       {
         cover_image ?
-        <div className="h-[320px] flex relative">
+        <div className="h-[350px] flex relative">
           <img src={cover_image} className="object-cover"/>
-          <label htmlFor="upload-cover-img" className="absolute bottom-8 font-medium left-10 rounded-md py-2 px-4 bg-gray-300 hover:bg-gray-400 cursor-pointer">
-            Add a cover image
-            <input id="upload-cover-img" type='file' accept='.png, .jpg, .jpeg' hidden onChange={handleUploadCoverImg} />
-          </label>
+          <div className="absolute left-12 bottom-8 flex gap-4 font-medium">
+            <label htmlFor="upload-cover-img" className="rounded-md py-2 px-4 bg-gray-300 hover:bg-gray-400 cursor-pointer">
+              Add a cover image
+              <input id="upload-cover-img" type='file' accept='.png, .jpg, .jpeg' hidden onChange={handleUploadCoverImg} />
+            </label>
+            <button className="py-2 px-4 bg-red-600 text-white rounded-md hover:bg-red-700" onClick={handleDeleteCoverImg}>Delete image</button>
+          </div>
         </div>
         :
-        <label htmlFor="upload-cover-img" className="w-fit mx-10 mt-10 font-medium rounded-md py-2 px-4 bg-gray-300 hover:bg-gray-400 cursor-pointer">
+        <label htmlFor="upload-cover-img" className="w-fit mx-12 mt-10 font-medium rounded-md py-2 px-4 bg-gray-300 hover:bg-gray-400 cursor-pointer">
           Add a cover image
           <input id="upload-cover-img" type='file' accept='.png, .jpg, .jpeg' hidden onChange={handleUploadCoverImg} />
         </label>
       }
-      <div className="relative flex flex-col gap-4 py-6 px-10">
+      <div className="relative flex flex-col gap-4 py-6 px-12">
         <textarea 
           placeholder="New post title here..."
           rows={1}

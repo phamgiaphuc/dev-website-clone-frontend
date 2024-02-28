@@ -6,7 +6,7 @@ const BlogCode = ({code, language}) => {
   return (
     <CodeBlock code={code} language={language}>
       <div className="relative">
-        <CodeBlock.Code className="bg-gray-900 p-6 rounded-md text-sm shadow-lg">
+        <CodeBlock.Code className="bg-gray-900 p-6 rounded-md text-sm shadow-lg mt-2">
           <div className="table-row">
             <CodeBlock.LineNumber className="table-cell pr-4 text-gray-500 text-right select-none" />
             <CodeBlock.LineContent className="table-cell">

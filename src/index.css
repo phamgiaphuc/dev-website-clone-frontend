@@ -4,6 +4,7 @@
 
 :root {
   background-color: rgb(244 244 245);
+  @apply selection:bg-indigo-100
 }
 
 input[type='text'], input[type='password'], input[type='email'], input[type='url'] {
