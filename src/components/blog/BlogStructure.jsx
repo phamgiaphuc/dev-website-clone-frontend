@@ -1,8 +1,10 @@
 import { formatDate } from "@/common/formatDate"
 import { randomColors } from "@/common/generateRandomColor"
 import BlogContent from "./BlogContent"
+import { Link, useParams } from "react-router-dom"
 
-const BlogStructure = ({tags, cover_image, createdAt, title, content, profile_img, username, fullname}) => {
+const BlogStructure = ({tags, cover_image, createdAt, title, content, profile_img, username, fullname, isOwner}) => {
+  const url = useParams();
   return (
     <>
       <img src={cover_image} className="h-[350px] object-cover"/>
@@ -13,6 +15,15 @@ const BlogStructure = ({tags, cover_image, createdAt, title, content, profile_im
             <span className="font-medium">{fullname}</span>
             <span className="text-sm text-gray-600 font-light">{formatDate(createdAt)}</span>
           </div>
+          {
+            isOwner
+            &&
+            <div className="ml-auto bg-yellow-50 p-1 flex rounded-md font-light text-sm border border-yellow-300">
+              <Link to={`/${username}/${url.blogId}/edit`} className="p-2 rounded-md hover:bg-yellow-100">Edit</Link>
+              <Link to={`/${username}/${url.blogId}/manage`} className="p-2 rounded-md hover:bg-yellow-100">Manage</Link>
+              <Link to={`/${username}/${url.blogId}/stats`} className="p-2 rounded-md hover:bg-yellow-100">Stats</Link>
+            </div>
+          }
         </div>
         <div className="flex flex-col gap-2 mb-2">
           <span className="text-5xl font-bold leading-tight">{title}</span>

@@ -12,14 +12,15 @@ export const userUpdateProfile = async (user, userData, dispatch, axiosJWT) => {
     };
     dispatch(userUpdate(updatedUser));
     toast.dismiss(loadingToast);
-    setTimeout(() => {
-      window.scrollTo(0, 0);
-      toast.success('Updated success 👍');
-    }, 500);
+    toast.success('Updated success 👍');
   } catch (error) {
-    console.log(error);
+    const { response: { data }} = error
     toast.dismiss(loadingToast);
+    toast.error(data.error);
   }
+  setTimeout(() => {
+    window.scrollTo(0, 0);
+  }, 500);
 }
 
 export const userUploadProfileImg = async (profileImgSpanRef, setImgUrl, axiosJWT, event) => {
@@ -38,8 +39,8 @@ export const userUploadProfileImg = async (profileImgSpanRef, setImgUrl, axiosJW
     toast.dismiss(loadingToast);
     toast.success('Uploaded 👍');
   } catch (error) {
-    console.log(error);
+    const { response: { data }} = error
     toast.dismiss(loadingToast);
-    toast.error(error);
+    toast.error(data.error);
   }
 }

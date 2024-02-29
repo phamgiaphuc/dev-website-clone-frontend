@@ -29,7 +29,7 @@ const UserPage = () => {
 
   useEffect(() => {
     console.log(sort);
-    axiosJWT.get(`/v1/blogs?publish=true&sort=${sort ? sort : 'desc'}`).then(({data}) => {
+    axiosJWT.get(`/v1/blogs/${user.profile?.username}?publish=true&sort=${sort ? sort : 'desc'}`).then(({data}) => {
       setBlogs(data);
     }).catch((error) => {
       console.log(error);
