@@ -9,7 +9,6 @@ const HomePage = () => {
 
   useEffect(() => {
     axios.get('/v1/blogs?sort=desc').then(({ data }) => {
-      console.log(data);
       setBlogs(data);
     }).catch((error) => {
       console.log(error);

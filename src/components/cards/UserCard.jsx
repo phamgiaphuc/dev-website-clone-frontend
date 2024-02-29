@@ -1,7 +1,19 @@
 import { formatDate } from "@/common/formatDate"
-import { Link } from "react-router-dom"
+import { useSelector } from "react-redux"
+import { Link, useNavigate } from "react-router-dom"
 
 const UserCard = ({author, isOwner}) => {
+  const user = useSelector((state) => state.user.data);
+  const navigate = useNavigate();
+
+  const handleFollowBtn = (event) => {
+    event.preventDefault();
+    if (!user) {
+      return navigate('/signin');
+    }
+    console.log(`Followed ${author.profile?.username}`);
+  }
+
   return (
     <div className="bg-white relative h-fit w-full flex flex-col rounded-md border border-gray-200 overflow-hidden">
       <div className="h-8" style={{ backgroundColor: `${author.profile?.branding_color}` }}></div>
@@ -16,7 +28,7 @@ const UserCard = ({author, isOwner}) => {
             Edit profile
           </Link>
           :
-          <button className="py-2 px-4 rounded-md bg-indigo-600 text-center text-white hover:bg-indigo-700 hover:underline hover:underline-offset-2 cursor-pointer">
+          <button onClick={handleFollowBtn} className="py-2 px-4 rounded-md bg-indigo-600 text-center text-white hover:bg-indigo-700 hover:underline hover:underline-offset-2 cursor-pointer">
             Follow
           </button>
         }

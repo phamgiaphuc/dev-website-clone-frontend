@@ -18,7 +18,7 @@ export const authSignIn = async (credentials, dispatch, navigate) => {
     dispatch(userSignIn(data));
     toast.dismiss(loadingToast);
     toast.success('Sign in 👍');
-    navigate('/');
+    navigate(-1);
   } catch ({response: {data}}) {
     dispatch(signInFailed());
     toast.dismiss(loadingToast);
@@ -88,7 +88,7 @@ export const authGoogleSignIn = async (dispatch, navigate) => {
     dispatch(signInSuccess(data));
     dispatch(userSignIn(data));
     toast.success('Sign in 👍');
-    navigate('/');
+    navigate(-1);
   } catch ({ response: {data}}) {
     dispatch(signInFailed());
     toast.error(data.error);

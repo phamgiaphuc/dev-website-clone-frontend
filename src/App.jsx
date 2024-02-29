@@ -18,7 +18,7 @@ import SettingsLayout from './layouts/SettingsLayout'
 import UserPage from './pages/user/UserPage'
 import CustomizationPage from './pages/settings/CustomizationPage'
 import ProfilePage from './pages/settings/ProfilePage'
-import NotificationsPage from './pages/settings/NotificationsPage'
+import NotificationsPage from './pages/user/NotificationsPage'
 import AccountPage from './pages/settings/AccountPage'
 import OrganizationPage from './pages/settings/OrganizationPage'
 import ExtensionsPage from './pages/settings/ExtensionsPage'
@@ -39,16 +39,16 @@ const App = () => {
               <Route path='signup' element={<SignUpPage />} />
               <Route path='verification/:id' element={<VerificationPage />} />
             </Route>
-            <Route element={<UserProtectedRoute />}>
-              <Route path=':username' element={<UserPage />} />
-              <Route path=':username/:blogId' element={<BlogPage />} />
+            <Route path=':username' element={<UserPage />} />
+            <Route path=':username/:blogId' element={<BlogPage />} />
+            <Route element={<UserProtectedRoute />} >
+            <Route path='notifications' element={<NotificationsPage />} />
               <Route path='dashboard' element={<DashboardPage />} />
               <Route path='readinglist' element={<ReadingListPage />} />
               <Route path='settings' element={<SettingsLayout />}>
                 <Route index element={<ProfilePage />} />
                 <Route path='profile' element={<ProfilePage />} />
                 <Route path='customization' element={<CustomizationPage />} />
-                <Route path='notifications' element={<NotificationsPage />} />
                 <Route path='account' element={<AccountPage />} />
                 <Route path='organization' element={<OrganizationPage />} />
                 <Route path='extensions' element={<ExtensionsPage />} />

@@ -1,6 +1,5 @@
 import BlogStructure from "@/components/blog/BlogStructure";
-import { UserContext } from "@/components/context/UserContextProvider";
-import { useContext, useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import toast from "react-hot-toast";
 import { Navigate, useParams } from "react-router-dom";
 import { RiHeartAddLine } from "react-icons/ri";
@@ -8,9 +7,11 @@ import { FaRegComment } from "react-icons/fa";
 import { MdOutlineSaveAlt } from "react-icons/md";
 import ScrollMotion from "@/components/motions/ScrollMotion";
 import UserCard from "@/components/cards/UserCard";
+import axios from "axios";
+import { useSelector } from "react-redux";
 
 const BlogPage = () => {
-  const { axiosJWT } = useContext(UserContext);
+  const user = useSelector((state) => state.user.data);
   const [isScrolled, setIsScrolled] = useState(false);
   const param = useParams();
   const [blog, setBlog] = useState({});
@@ -19,16 +20,20 @@ const BlogPage = () => {
   const subSectionRef = useRef();
 
   useEffect(() => {
-    axiosJWT.get(`/v1/blogs/${param.username}/${param.blogId}`).then(({data}) => {
-      const { blog: { author, ...blog}, isOwner } = data;
+    axios.get(`/v1/blogs/${param.username}/${param.blogId}`).then(({data}) => {
+      const { author, ...blog } = data;
       setBlog(blog);
       setAuthor(author);
-      setIsOwner(isOwner);
+      if (user && user.profile?.username === author.profile?.username) {
+        setIsOwner(true);
+      } else {
+        setIsOwner(false);
+      }
     }).catch((error) => {
       console.log(error);
       toast.error(error);
     });
-  }, [param.blogId]);
+  }, [param.blogId, param.username, user]);
 
   const handleScroll = (event) => {
     event.preventDefault();

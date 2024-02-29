@@ -75,7 +75,7 @@ A DEV clone website with some main features:
 
 - [x] Editor page
 - [x] Preview page
-- [ ] Blog page
+- [x] Blog page
 
 4. Others
 
@@ -96,3 +96,27 @@ A DEV clone website with some main features:
 - Verfied account with a code sent to the user's email by Google email
 
 ![](./images/VerificationPage.png)
+
+2. User
+
+- Update profile page: User's information and images (Firebase storage)
+
+![](./images/ProfilePage.png)
+
+- Display profile page with user's information and blogs
+
+![](./images/UserPage.png)
+
+3. Blog
+
+- Editor page
+
+![](./images/EditorPage.png)
+
+- Preview page
+
+![](./images/PreviewPage.png)
+
+- Blog page
+
+![](./images/BlogPage.png)
