@@ -16,7 +16,7 @@ const Header = () => {
   }
   return (
     <div className="bg-white border-b border-gray-200 fixed z-20 w-full">
-      <header className="container flex justify-between items-center mx-auto h-14 font-light">
+      <header className="container max-w-screen-xl flex justify-between items-center mx-auto h-14 font-light">
         <div className="flex items-center ml-2 xl:ml-0">
           <div className='mr-2 p-1.5 hover:text-indigo-600 hover:bg-gray-100 cursor-pointer rounded-md md:hidden'>
             <FaBars className='h-6 w-6' />

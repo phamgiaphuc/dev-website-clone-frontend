@@ -1,14 +1,54 @@
 import { IoMdMail, IoLogoYoutube, IoLogoFacebook, IoLogoInstagram, IoLogoTwitter, IoLogoGithub } from "react-icons/io";
 import { LuUserSquare } from "react-icons/lu";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { IoDocumentTextOutline, IoChatbubbleOutline } from "react-icons/io5";
 import { CiHashtag } from "react-icons/ci";
 import SubCard from "@/components/cards/SubCard";
 import { BiSortDown, BiSortUp } from "react-icons/bi";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useSelector } from "react-redux";
 
 const UserPage = () => {
-  const user = useSelector((state) => state.user.data);
+  const currentUser = useSelector((state) => state.user.data);
+  const param = useParams();
+  const query = new URLSearchParams(window.location.search);
+  const [user, setUser] = useState({}); 
+  const [blogs, setBlogs] = useState([]);
+  const [sort, setSort] = useState(query.get('sort'));
+  const navigate = useNavigate();
+
+  const handleNewestBlogBtn = () => {
+    setSort('desc');
+    navigate(`/${user.profile?.username}?publish=true&sort=desc`)
+  }
+
+  const handleOldestBlogBtn = () => {
+    setSort('asc');
+    navigate(`/${user.profile?.username}?publish=true&sort=asc`)
+  }
+
+  const handleFollowBtn = (event) => {
+    event.preventDefault();
+    if (!currentUser) {
+      return navigate('/signin');
+    }
+    console.log(`Followed ${user.profile?.username}`);
+  }
+
+  useEffect(() => {
+    axios.get(`/v1/users/${param.username}`).then(({data}) => {
+      setUser(data);
+    })
+  }, [param.username]);
+
+  useEffect(() => {
+    axios.get(`/v1/blogs/${param.username}?publish=true&sort=${sort ? sort : 'desc'}`).then(({data}) => {
+      setBlogs(data);
+    }).catch((error) => {
+      console.log(error);
+    });
+  }, [sort, param.username]);
   return (
     <>
       <div className={`absolute left-0 w-screen -z-10 h-[140px] flex justify-center font-light`} style={{ backgroundColor: user.profile?.branding_color }}></div>
@@ -18,9 +58,16 @@ const UserPage = () => {
             <img src={user.profile?.profile_img} alt={user.profile?.username} className={`h-32 w-32 rounded-full border-8 object-cover`} style={{ borderColor: user.profile?.branding_color }}/>
           </div>
           <div className="flex justify-end">
-            <Link to={'/settings'} className="py-2 px-4 z-10 rounded-md bg-indigo-600 text-center text-white hover:bg-indigo-700 hover:underline hover:underline-offset-2 cursor-pointer">
-              Edit profile
-            </Link>
+            {
+              currentUser && currentUser.profile?.username === user.profile?.username ?
+              <Link to={'/settings'} className="py-2 px-4 z-10 rounded-md bg-indigo-600 text-center text-white hover:bg-indigo-700 hover:underline hover:underline-offset-2 cursor-pointer">
+                Edit profile
+              </Link>
+              :
+              <button onClick={handleFollowBtn} className="py-2 px-4 z-10 rounded-md bg-indigo-600 text-center text-white hover:bg-indigo-700 hover:underline hover:underline-offset-2 cursor-pointer">
+                Follow
+              </button>
+            }
           </div>
           <div className="flex-1 flex justify-between flex-col mt-6 gap-4">
             <div className="flex flex-col items-center justify-center">
@@ -95,21 +142,36 @@ const UserPage = () => {
           </div>
         </div>
         <div className='col-span-2 flex flex-col gap-2'>
-          <div className="flex gap-2">
-            <button className="flex gap-1 items-center py-2 px-4 rounded-md border border-gray-200 bg-white hover:border-gray-400 hover:underline hover:underline-offset-2 cursor-pointer">
-              <BiSortDown className="w-6 h-6"/>
-              Newest
-            </button>
-            <button className="flex gap-2 py-2 px-4 rounded-md border border-gray-200 bg-white hover:border-gray-400 hover:underline hover:underline-offset-2 cursor-pointer">
-              <BiSortUp className="w-6 h-6"/>
-              Oldest
-            </button>
-          </div>
-          <SubCard profile_img={user.profile?.profile_img} username={user.profile?.username} fullname={user.profile?.fullname}/>
-          <SubCard profile_img={user.profile?.profile_img} username={user.profile?.username} fullname={user.profile?.fullname}/>
-          <SubCard profile_img={user.profile?.profile_img} username={user.profile?.username} fullname={user.profile?.fullname}/>
-          <SubCard profile_img={user.profile?.profile_img} username={user.profile?.username} fullname={user.profile?.fullname}/>
-          <SubCard profile_img={user.profile?.profile_img} username={user.profile?.username} fullname={user.profile?.fullname}/>
+          {
+            blogs.length > 0 ?
+            <>
+              <div className="flex gap-2">
+                <button onClick={handleNewestBlogBtn} className={`flex gap-1 items-center py-2 px-4 rounded-md border border-gray-200 bg-white hover:border-gray-400 hover:underline hover:underline-offset-2 cursor-pointer ${sort === 'desc' && 'font-semibold border-gray-600'}`}>
+                  <BiSortDown className="w-6 h-6"/>
+                  Newest
+                </button>
+                <button onClick={handleOldestBlogBtn} className={`flex gap-1 items-center py-2 px-4 rounded-md border border-gray-200 bg-white hover:border-gray-400 hover:underline hover:underline-offset-2 cursor-pointer ${sort === 'asc' && 'font-semibold border-gray-600'}`}>
+                  <BiSortUp className="w-6 h-6"/>
+                  Oldest
+                </button>
+              </div>
+              {
+                blogs.map((blog, index) => 
+                  <SubCard 
+                    key={index}
+                    profile_img={user.profile?.profile_img}
+                    username={user.profile?.username}
+                    fullname={user.profile?.fullname}
+                    blog={blog}
+                  />
+                )
+              } 
+            </>
+            :
+            <div className="bg-white flex rounded-md border border-gray-200 p-4 font-semibold text-xl">
+              <span>No posts yet</span>
+            </div>
+          }
         </div>
       </div>
     </>

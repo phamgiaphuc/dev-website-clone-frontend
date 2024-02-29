@@ -5,7 +5,7 @@ const MainLayout = () => {
   return (
     <div>
       <Header />
-      <div className="pt-14 container mx-auto">
+      <div className="pt-14">
         <Outlet />
       </div>
     </div>
