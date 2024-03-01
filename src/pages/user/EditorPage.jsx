@@ -14,7 +14,6 @@ const blogStructure = {
   cover_image: '',
   content: {},
   tags: [],
-  createdAt: Date.now(),
   publish: false,
   draft: false
 }

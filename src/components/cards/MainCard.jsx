@@ -13,11 +13,11 @@ const MainCard = ({profile_img, username, fullname, blog}) => {
           <img src={profile_img} alt={username} className="w-10 h-10 rounded-full mr-2"/>
           <div className="flex justify-between flex-col">
             <span className="font-medium">{fullname}</span>
-            <span className="text-sm text-gray-600 font-light">{formatDate(blog.createdAt)}</span>
+            <span className="text-sm text-gray-600 font-light">Posted on {formatDate(blog.createdAt)}</span>
           </div>
         </div>
         <div className="ml-12 mt-2 flex flex-col gap-1">
-          <span className="text-2xl font-bold group-hover:text-indigo-600 mr-2">{blog.title}</span>
+          <span className="text-3xl font-semibold group-hover:text-indigo-600 mr-2">{blog.title}</span>
           <div className="flex gap-2 text-sm">
             {
               blog.tags.map((tag, index) => {
@@ -33,11 +33,11 @@ const MainCard = ({profile_img, username, fullname, blog}) => {
             <div className="flex gap-2 text-sm">
               <div className="py-1 px-2 w-fit flex items-center gap-1 rounded-md cursor-pointer text-gray-600 hover:text-black hover:bg-gray-100">
                 <FaHeart className="w-4 h-4 fill-red-500"/>
-                <span>{blog.reactions?.likes} reactions</span>
+                <span>{blog.reactions?.likes.length} {blog.reactions?.likes.length === 1 ? 'reaction' : 'reactions'}</span>
               </div>
               <div className="py-1 px-2 w-fit flex items-center gap-1 rounded-md cursor-pointer text-gray-600 hover:text-black hover:bg-gray-100">
                 <FaComment className="w-4 h-4 fill-gray-800"/>
-                <span>{blog.reactions?.comments} comments</span>
+                <span>{blog.reactions?.comments.length} {blog.reactions?.comments.length === 1 ? 'comment' : 'comments'}</span>
               </div>
             </div>
             <div className="flex flex-col text-gray-600 justify-end h-full">

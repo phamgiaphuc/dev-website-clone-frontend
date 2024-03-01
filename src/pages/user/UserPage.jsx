@@ -8,6 +8,8 @@ import { BiSortDown, BiSortUp } from "react-icons/bi";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { formatDate } from "@/common/formatDate";
+import { LuCake } from "react-icons/lu";
 
 const UserPage = () => {
   const currentUser = useSelector((state) => state.user.data);
@@ -81,7 +83,11 @@ const UserPage = () => {
                 }
               </div>
             </div>
-            <div className="flex justify-center">
+            <div className="flex justify-center gap-8">
+              <span className="flex text-sm items-center gap-2 text-gray-600">
+                <LuCake className="w-6 h-6" />
+                Joined on {formatDate(user.createdAt)}
+              </span>
               <a href={`mailto:${user.email}`} className="flex text-sm items-center gap-2 text-gray-600 hover:text-indigo-600">
                 <IoMdMail className="w-6 h-6" />
                 <span>{user.email}</span>
@@ -95,7 +101,7 @@ const UserPage = () => {
             <div className="flex flex-col w-full gap-6">
               <span className="flex items-center gap-2">
                 <IoDocumentTextOutline className="w-6 h-6"/>
-                0 posts published
+                {blogs.length} {blogs.length === 1 ? 'post' : 'posts' } published
               </span>
               <span className="flex items-center gap-2">
                 <IoChatbubbleOutline className="w-6 h-6"/>

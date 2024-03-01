@@ -38,7 +38,7 @@ const UserCard = ({author, isOwner}) => {
         </div>
         <div className="flex flex-col leading-snug">
           <span className="uppercase text-sm font-semibold tracking-wide">Joined</span>
-          <span>{formatDate(author.created_at)}</span>
+          <span>{formatDate(author.createdAt)}</span>
         </div>
       </div>
     </div>

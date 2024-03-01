@@ -13,7 +13,7 @@ const BlogStructure = ({tags, cover_image, createdAt, title, content, profile_im
           <img src={profile_img} alt={username} className="w-12 h-12 rounded-full mr-2"/>
           <div className="flex justify-between flex-col">
             <span className="font-medium">{fullname}</span>
-            <span className="text-sm text-gray-600 font-light">{formatDate(createdAt)}</span>
+            <span className="text-sm text-gray-600 font-light">Posted on {formatDate(createdAt)}</span>
           </div>
           {
             isOwner

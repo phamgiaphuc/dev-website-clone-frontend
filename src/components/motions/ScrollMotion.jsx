@@ -11,7 +11,7 @@ const ScrollMotion = () => {
   return (
     <div>
       <motion.div
-        className="fixed w-full origin-left left-0 h-[5px] bg-indigo-600" 
+        className="fixed w-full origin-left -mt-4 left-0 h-[5px] bg-indigo-600" 
         style={{ scaleX }}
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
