@@ -23,6 +23,7 @@ import AccountPage from './pages/settings/AccountPage'
 import OrganizationPage from './pages/settings/OrganizationPage'
 import ExtensionsPage from './pages/settings/ExtensionsPage'
 import BlogPage from './pages/user/BlogPage'
+import SettingsNotificationsPage from './pages/settings/NotificationsPage'
 
 axios.defaults.baseURL = SERVER_BASE_URL;
 axios.defaults.withCredentials = true;
@@ -49,6 +50,7 @@ const App = () => {
                 <Route index element={<ProfilePage />} />
                 <Route path='profile' element={<ProfilePage />} />
                 <Route path='customization' element={<CustomizationPage />} />
+                <Route path='notifications' element={<SettingsNotificationsPage />} />
                 <Route path='account' element={<AccountPage />} />
                 <Route path='organization' element={<OrganizationPage />} />
                 <Route path='extensions' element={<ExtensionsPage />} />
