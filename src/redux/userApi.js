@@ -1,7 +1,8 @@
 import toast from "react-hot-toast";
-import { userUpdate } from "./userSlice";
+import { userSignOut, userUpdate } from "./userSlice";
+import { signOutFailed, signOutStart, signOutSuccess } from "./authSlice";
 
-export const userUpdateProfile = async (user, userData, dispatch, axiosJWT) => {
+export const userUpdateProfile = async (user, userData, dispatch, axiosJWT, reset) => {
   const loadingToast = toast.loading('Updating');
   try {
     const { data } = await axiosJWT.post('/v1/users/update-profile', userData);
@@ -17,6 +18,7 @@ export const userUpdateProfile = async (user, userData, dispatch, axiosJWT) => {
     const { response: { data }} = error
     toast.dismiss(loadingToast);
     toast.error(data.error);
+    reset();
   }
   setTimeout(() => {
     window.scrollTo(0, 0);
@@ -42,5 +44,33 @@ export const userUploadProfileImg = async (profileImgSpanRef, setImgUrl, axiosJW
     const { response: { data }} = error
     toast.dismiss(loadingToast);
     toast.error(data.error);
+  }
+}
+
+export const userResetPassword = async (axiosJWT, userData) => {
+  const loadingToast = toast.loading('Reseting password');
+  try {
+    await axiosJWT.post('/v1/users/reset-password', userData);
+    toast.dismiss(loadingToast);
+    toast.success('Reset success 👍');
+    location.reload();
+  } catch (error) {
+    const { response: { data }} = error
+    toast.dismiss(loadingToast);
+    toast.error(data.error);
+  }
+}
+
+export const userDeleteAccount = async (axiosJWT, dispatch) => {
+  dispatch(signOutStart());
+  try {
+    await axiosJWT.get('/v1/users/delete-account');
+    dispatch(signOutSuccess());
+    dispatch(userSignOut());
+    toast.success('Deleted 👍');
+  } catch (error) {
+    const { response: { data }} = error
+    toast.error(data.error);
+    dispatch(signOutFailed());
   }
 }
