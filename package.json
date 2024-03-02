@@ -20,6 +20,7 @@
     "@editorjs/marker": "^1.4.0",
     "@editorjs/paragraph": "^2.11.3",
     "@editorjs/quote": "^2.6.0",
+    "@headlessui/react": "^1.7.18",
     "@reduxjs/toolkit": "^2.2.0",
     "axios": "^1.6.7",
     "firebase": "^10.8.0",

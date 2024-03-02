@@ -16,7 +16,7 @@ const ProfilePage = () => {
   const [bio, setBio] = useState(user.profile?.bio);
   const [colorPicker, setColorPicker] = useState(false);
   const axiosJWT = createAxios(user, dispatch);
-  const { register, handleSubmit, watch } = useForm({
+  const { register, handleSubmit, watch, reset } = useForm({
     defaultValues: {
       email: user.email,
       fullname: user.profile?.fullname,
@@ -26,7 +26,8 @@ const ProfilePage = () => {
       facebook: user.profile?.social_links?.facebook,
       github: user.profile?.social_links?.github,
       twitter: user.profile?.social_links?.twitter,
-      website: user.profile?.social_links?.website
+      website: user.profile?.social_links?.website,
+      address: user.profile?.address,
     }
   });
 
@@ -46,13 +47,14 @@ const ProfilePage = () => {
   }
 
   const onSubmitForm = async (data) => {
-    const { email, fullname, username, ...rest } = data;
+    const { email, fullname, username, address, ...rest } = data;
     const userData = {
       email,
       profile: {
         fullname,
         username,
         bio,
+        address,
         social_links: {
           ...rest
         },
@@ -60,14 +62,14 @@ const ProfilePage = () => {
         branding_color: color
       }
     };
-    await userUpdateProfile(user, userData, dispatch, axiosJWT);
+    await userUpdateProfile(user, userData, dispatch, axiosJWT, reset);
     setColorPicker(false);
   }
 
   return (
     <form onSubmit={handleSubmit(onSubmitForm)} className="flex flex-col gap-4">
-      <div className="w-full p-4 rounded-md border border-gray-200 bg-white flex flex-col">
-        <span className="mb-4 text-xl font-semibold">User</span>
+      <div className="p-6 rounded-md border border-gray-200 bg-white flex flex-col">
+        <span className="mb-4 text-2xl font-semibold">User</span>
         <span className="font-medium mb-1">Full name</span>
         <input type="text" {...register('fullname', {
           required: 'Full name is required'
@@ -79,11 +81,11 @@ const ProfilePage = () => {
             value: emailRegex,
             message: 'Invalid email'
           }
-        })} placeholder='example@mail.com' defaultValue={user.email} className="mb-4"/>
+        })} placeholder='example@mail.com' className="mb-4"/>
         <span className="font-medium mb-1">Username</span>
         <input type="text" {...register('username', {
           required: 'Username is required'
-        })}  placeholder='example@mail.com' defaultValue={user.profile?.username} className="mb-4"/>
+        })}  placeholder='example@mail.com' className="mb-4"/>
         <span className="font-medium mb-1">Profile image</span>
         <div className="flex items-center gap-4">
           <img src={imgUrl} alt={user.profile?.profile_img} className="w-16 h-16 rounded-full border border-gray-300"/>
@@ -98,12 +100,17 @@ const ProfilePage = () => {
           </div>
         </div>
       </div>
-      <div className="w-full p-4 rounded-md border border-gray-200 bg-white flex flex-col">
-        <span className="mb-4 text-xl font-semibold">Basic</span>
+      <div className="w-full p-6 rounded-md border border-gray-200 bg-white flex flex-col">
+        <span className="mb-4 text-2xl font-semibold">Basic</span>
         <span className="font-medium mb-1">Bio</span>
         <textarea placeholder="A short bio" maxLength={250} onChange={(event) => setBio(event.target.value)} className="mb-1 text-area-form" defaultValue={user.profile?.bio}></textarea>
         <div className="flex text-sm text-gray-600 justify-end mb-2">
           <span>{bio.length}</span>/250
+        </div>
+        <span className="font-medium mb-1">Location</span>
+        <input type="text" {...register('address')} placeholder={'Address'} defaultValue={user.profile?.address} maxLength={100} className="mb-1"/>
+        <div className="flex text-sm text-gray-600 justify-end mb-2">
+          <span>{watch('address') ? watch('address').length : 0}</span>/100
         </div>
         <span className="font-medium mb-1">Youtube</span>
         <input type="url" {...register('youtube')} placeholder={'Youtube'} defaultValue={user.profile?.social_links?.youtube} maxLength={100} className="mb-1"/>
@@ -136,8 +143,8 @@ const ProfilePage = () => {
           <span>{watch('website') ? watch('website').length : 0}</span>/100
         </div>
       </div>
-      <div className="w-full p-4 rounded-md border border-gray-200 bg-white flex flex-col">
-        <span className="mb-4 text-xl font-semibold">Branding</span>
+      <div className="w-full p-6 rounded-md border border-gray-200 bg-white flex flex-col">
+        <span className="mb-4 text-2xl font-semibold">Branding</span>
         <div className="flex flex-col mb-1">
           <span className="font-medium">Brand color</span>
           <span className="text-sm text-gray-600">Used for backgrounds, borders etc.</span>
@@ -151,8 +158,8 @@ const ProfilePage = () => {
           }
         </div>
       </div>
-      <div className="w-full p-4 rounded-md border border-gray-200 bg-white">
-        <button type="submit" className="py-2 px-4 w-full bg-indigo-600 text-white rounded-md hover:underline hover:underline-offset-2">Save profile information</button>
+      <div className="w-full p-6 rounded-md border border-gray-200 bg-white mb-4">
+        <button type="submit" className="py-2 px-4 w-full bg-indigo-600 text-white rounded-md hover:bg-indigo-700 hover:underline hover:underline-offset-2">Save profile information</button>
       </div>
     </form>
   )

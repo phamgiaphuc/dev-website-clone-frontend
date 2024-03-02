@@ -11,6 +11,11 @@ input[type='text'], input[type='password'], input[type='email'], input[type='url
   @apply px-2 py-1.5 w-full rounded-md ring-1 ring-gray-300 placeholder-gray-600 focus:ring-2 hover:ring-gray-500 focus:outline-none focus:ring-indigo-600
 }
 
+input[type='password'].error {
+  @apply px-2 py-1.5 w-full rounded-md ring-1 ring-gray-300 placeholder-gray-600 focus:ring-2 hover:ring-gray-500 focus:outline-none focus:ring-red-600
+}
+
+
 .text-area-form {
   @apply px-2 py-1.5 w-full rounded-md ring-1 ring-gray-300 placeholder-gray-600 focus:ring-2 hover:ring-gray-500 focus:outline-none focus:ring-indigo-600
 }
@@ -36,3 +41,7 @@ li.cdx-list__item::marker {
 }
 
 /* .codex-editor__redactor { padding-bottom: 200px !important; } */
+
+#dialog {
+  background-color: rgb(0, 0, 0, 0.65);
+}
