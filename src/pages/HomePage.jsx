@@ -18,7 +18,7 @@ const HomePage = () => {
     }).catch((error) => {
       console.log(error);
     });
-  }, [sort])
+  }, [sort]);
 
   return (
     <div className="max-w-screen-xl mx-auto grid grid-cols-[240px_auto_330px] my-4 gap-4 scroll-smooth">
@@ -52,7 +52,7 @@ const HomePage = () => {
           </div>
         }
       </div>
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-4">
         <RecentPostNavigation /> 
         { adsOpen && <AdsNavigation setAdsOpen={setAdsOpen}/> }
       </div>
