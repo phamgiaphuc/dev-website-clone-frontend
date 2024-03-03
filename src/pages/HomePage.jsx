@@ -1,5 +1,6 @@
 import MainCard from "@/components/cards/MainCard";
 import SubCard from "@/components/cards/SubCard";
+import AdsNavigation from "@/components/navigations/AdsNavigation";
 import HomeNavigation from "@/components/navigations/HomeNavigation";
 import RecentPostNavigation from "@/components/navigations/RecentPostNavigation";
 import axios from "axios";
@@ -9,6 +10,7 @@ import { BiSortDown, BiSortUp } from "react-icons/bi";
 const HomePage = () => {
   const [blogs, setBlogs] = useState([]);
   const [sort, setSort] = useState('');
+  const [adsOpen, setAdsOpen] = useState(true);
 
   useEffect(() => {
     axios.get(`/v1/blogs?publish=true&sort=${sort ? sort : 'desc'}`).then(({ data }) => {
@@ -50,7 +52,10 @@ const HomePage = () => {
           </div>
         }
       </div>
-      <RecentPostNavigation />
+      <div className="flex flex-col gap-2">
+        <RecentPostNavigation /> 
+        { adsOpen && <AdsNavigation setAdsOpen={setAdsOpen}/> }
+      </div>
     </div>
   )
 }
