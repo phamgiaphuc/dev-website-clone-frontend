@@ -6,7 +6,7 @@ const MainLayout = () => {
   return (
     <div className="relative">
       <Header />
-      <div className="pt-14">
+      <div className="pt-14 scroll-smooth">
         <Outlet />
       </div>
       <GitHubBadges />

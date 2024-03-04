@@ -2,6 +2,7 @@ import MainCard from "@/components/cards/MainCard";
 import MainSkeletonCard from "@/components/cards/MainSkeletonCard";
 import SubCard from "@/components/cards/SubCard";
 import SubSkeletonCard from "@/components/cards/SubSkeletonCard";
+import PageTransformMotion from "@/components/motions/PageTransformMotion";
 import AdsNavigation from "@/components/navigations/AdsNavigation";
 import HomeNavigation from "@/components/navigations/HomeNavigation";
 import RecentPostNavigation from "@/components/navigations/RecentPostNavigation";
@@ -27,6 +28,16 @@ const HomePage = () => {
     return () => clearTimeout(timer);
   }, [sort]);
 
+  const descendingSort = () => {
+    setSort('desc')
+    setIsLoading(true);
+  }
+
+  const ascendingSort = () => {
+    setSort('asc')
+    setIsLoading(true);
+  }
+
   return (
     <div className="max-w-screen-xl mx-auto grid grid-cols-[240px_auto_330px] my-4 gap-4 scroll-smooth">
       <HomeNavigation />
@@ -35,11 +46,11 @@ const HomePage = () => {
           blogs.length > 0 ?
           <>
             <div className="flex gap-2 font-light">
-              <button onClick={() => setSort('desc')} className={`flex gap-1 items-center py-2 px-4 rounded-md border border-gray-200 bg-white hover:border-gray-400 hover:underline hover:underline-offset-2 cursor-pointer ${sort === 'desc' ? 'font-semibold border-gray-600' : ''}`}>
+              <button onClick={descendingSort} className={`flex gap-1 items-center py-2 px-4 rounded-md border border-gray-200 bg-white hover:border-gray-400 hover:underline hover:underline-offset-2 cursor-pointer ${sort === 'desc' ? 'font-semibold border-gray-600' : ''}`}>
                 <BiSortDown className="w-6 h-6"/>
                 Newest
               </button>
-              <button onClick={() => setSort('asc')} className={`flex gap-1 items-center py-2 px-4 rounded-md border border-gray-200 bg-white hover:border-gray-400 hover:underline hover:underline-offset-2 cursor-pointer ${sort === 'asc' ? 'font-semibold border-gray-600' : ''}`}>
+              <button onClick={ascendingSort} className={`flex gap-1 items-center py-2 px-4 rounded-md border border-gray-200 bg-white hover:border-gray-400 hover:underline hover:underline-offset-2 cursor-pointer ${sort === 'asc' ? 'font-semibold border-gray-600' : ''}`}>
                 <BiSortUp className="w-6 h-6"/>
                 Oldest
               </button>
@@ -53,12 +64,18 @@ const HomePage = () => {
                 }
               </>
               :
-              blogs.map((blog, index) => {
-                if (index === 0) {   
-                  return <MainCard key={blog._id} profile_img={blog.author?.profile?.profile_img} username={blog.author?.profile?.username} fullname={blog.author?.profile?.fullname} blog={blog}/>
-                }
-                return <SubCard key={blog._id} profile_img={blog.author?.profile?.profile_img} username={blog.author?.profile?.username} fullname={blog.author?.profile?.fullname} blog={blog} />
-              })
+              <PageTransformMotion>
+                <div className="flex flex-col gap-2">
+                  {
+                    blogs.map((blog, index) => {
+                      if (index === 0) {   
+                        return <MainCard key={blog._id} profile_img={blog.author?.profile?.profile_img} username={blog.author?.profile?.username} fullname={blog.author?.profile?.fullname} blog={blog}/>
+                      }
+                      return <SubCard key={blog._id} profile_img={blog.author?.profile?.profile_img} username={blog.author?.profile?.username} fullname={blog.author?.profile?.fullname} blog={blog} />
+                    })
+                  }
+                </div>
+              </PageTransformMotion>
             }
           </>
           :
@@ -68,8 +85,8 @@ const HomePage = () => {
         }
       </div>
       <div className="flex flex-col gap-4">
-        <RecentPostNavigation isLoading={isLoading}/> 
-        { adsOpen && !isLoading && <AdsNavigation setAdsOpen={setAdsOpen}/> }
+        <RecentPostNavigation /> 
+        { adsOpen && <AdsNavigation setAdsOpen={setAdsOpen}/> }
       </div>
     </div>
   )

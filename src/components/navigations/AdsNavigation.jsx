@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -10,6 +10,7 @@ import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 
 const AdsNavigation = ({setAdsOpen}) => {
   const [openClose, setOpenClose] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleClose = () => {
     setOpenClose(false);
@@ -22,7 +23,15 @@ const AdsNavigation = ({setAdsOpen}) => {
     }, 200)
   }
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, [])
+
   return (
+    !isLoading &&
     <div className="flex flex-col h-fit border border-gray-200 bg-white rounded-md divide-y font-light overflow-hidden">
       <div className="p-4 flex justify-between relative items-center">
         <span className="text-xl font-semibold">DEV News</span>
