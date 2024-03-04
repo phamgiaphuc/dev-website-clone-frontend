@@ -15,7 +15,8 @@ const blogStructure = {
   content: {},
   tags: [],
   publish: false,
-  draft: false
+  draft: false,
+  createdAt: Date.now()
 }
 
 const EditorPage = () => {

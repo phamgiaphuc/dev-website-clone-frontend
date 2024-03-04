@@ -1,5 +1,8 @@
 import MainCard from "@/components/cards/MainCard";
+import MainSkeletonCard from "@/components/cards/MainSkeletonCard";
 import SubCard from "@/components/cards/SubCard";
+import SubSkeletonCard from "@/components/cards/SubSkeletonCard";
+import AdsNavigation from "@/components/navigations/AdsNavigation";
 import HomeNavigation from "@/components/navigations/HomeNavigation";
 import RecentPostNavigation from "@/components/navigations/RecentPostNavigation";
 import axios from "axios";
@@ -9,6 +12,8 @@ import { BiSortDown, BiSortUp } from "react-icons/bi";
 const HomePage = () => {
   const [blogs, setBlogs] = useState([]);
   const [sort, setSort] = useState('');
+  const [adsOpen, setAdsOpen] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     axios.get(`/v1/blogs?publish=true&sort=${sort ? sort : 'desc'}`).then(({ data }) => {
@@ -16,7 +21,11 @@ const HomePage = () => {
     }).catch((error) => {
       console.log(error);
     });
-  }, [sort])
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, [sort]);
 
   return (
     <div className="max-w-screen-xl mx-auto grid grid-cols-[240px_auto_330px] my-4 gap-4 scroll-smooth">
@@ -36,6 +45,14 @@ const HomePage = () => {
               </button>
             </div>
             {
+              isLoading ?
+              <>
+                <MainSkeletonCard />
+                {
+                  Array(3).fill(0).map((_, index) => <SubSkeletonCard key={index} />)
+                }
+              </>
+              :
               blogs.map((blog, index) => {
                 if (index === 0) {   
                   return <MainCard key={blog._id} profile_img={blog.author?.profile?.profile_img} username={blog.author?.profile?.username} fullname={blog.author?.profile?.fullname} blog={blog}/>
@@ -50,7 +67,10 @@ const HomePage = () => {
           </div>
         }
       </div>
-      <RecentPostNavigation />
+      <div className="flex flex-col gap-4">
+        <RecentPostNavigation isLoading={isLoading}/> 
+        { adsOpen && !isLoading && <AdsNavigation setAdsOpen={setAdsOpen}/> }
+      </div>
     </div>
   )
 }

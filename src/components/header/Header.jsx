@@ -12,7 +12,7 @@ const Header = () => {
   const handleBlur = () => {
     setTimeout(() => {
       setUserNav(false);
-    }, 200)
+    }, 200);
   }
   return (
     <div className="bg-white border-b border-gray-200 fixed z-20 w-full">
