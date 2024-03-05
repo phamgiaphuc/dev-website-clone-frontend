@@ -76,7 +76,7 @@ const EditorComponent = () => {
           <div className="absolute left-12 bottom-8 flex gap-4 font-medium">
             <label htmlFor="upload-cover-img" className="rounded-md py-2 px-4 bg-gray-300 hover:bg-gray-400 cursor-pointer">
               Add a cover image
-              <input id="upload-cover-img" type='file' accept='.png, .jpg, .jpeg' hidden onChange={handleUploadCoverImg} />
+              <input id="upload-cover-img" type='file' accept='.png, .jpg, .jpeg, .gif' hidden onChange={handleUploadCoverImg} />
             </label>
             <button className="py-2 px-4 bg-red-600 text-white rounded-md hover:bg-red-700" onClick={handleDeleteCoverImg}>Delete image</button>
           </div>

@@ -21,6 +21,7 @@ const BlogPage = () => {
   const subSectionRef = useRef();
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     axios.get(`/v1/blogs/${param.username}/${param.blogId}`).then(({data}) => {
       const { author, ...blog } = data;
       setBlog(blog);
