@@ -3,8 +3,9 @@ import axios from "axios";
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom";
 
-const RecentPostNavigation = ({isLoading}) => {
+const RecentPostNavigation = () => {
   const [recentBlogs, setRecentBlogs] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     axios.get('/v1/blogs/recent?publish=true&limit=5').then(({data}) => {
@@ -12,6 +13,10 @@ const RecentPostNavigation = ({isLoading}) => {
     }).catch((error) => {
       console.log(error);
     });
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1500);
+    return () => clearTimeout(timer);
   }, [])
 
   return (
