@@ -74,3 +74,33 @@ export const userDeleteAccount = async (axiosJWT, dispatch) => {
     dispatch(signOutFailed());
   }
 }
+
+export const userFollowAnotherUser = async (axiosJWT, authorId, setIsFollow) => {
+  try {
+    const { data: { success }} = await axiosJWT.post('/v1/users/follow', {
+      followingUserId: authorId
+    });
+    if (success) {
+      setIsFollow(true);
+      toast.success('Followed 👍');
+    }
+  } catch (error) {
+    const { response: { data }} = error
+    toast.error(data.error);
+  }
+}
+
+export const userUnfollowAnotherUser = async (axiosJWT, authorId, setIsFollow) => {
+  try {
+    const { data: { success }} = await axiosJWT.post('/v1/users/unfollow', {
+      followingUserId: authorId
+    });
+    if (success) {
+      setIsFollow(false);
+      toast.success('Unfollowed 👍');
+    }
+  } catch (error) {
+    const { response: { data }} = error
+    toast.error(data.error);
+  }
+}

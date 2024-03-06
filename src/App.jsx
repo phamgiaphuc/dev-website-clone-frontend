@@ -3,7 +3,6 @@ import SignInPage from './pages/SignInPage'
 import SignUpPage from './pages/SignUpPage'
 import VerificationPage from './pages/VerificationPage'
 import HomePage from './pages/HomePage'
-import DashboardPage from './pages/user/DashboardPage'
 import EditorPage from './pages/user/EditorPage'
 import ReadingListPage from './pages/user/ReadingListPage'
 import axios from 'axios'
@@ -24,6 +23,16 @@ import OrganizationPage from './pages/settings/OrganizationPage'
 import ExtensionsPage from './pages/settings/ExtensionsPage'
 import BlogPage from './pages/user/BlogPage'
 import SettingsNotificationsPage from './pages/settings/NotificationsPage'
+import DashboardLayout from './layouts/DashboardLayout'
+import PostPage from './pages/user/dashboard/PostPage'
+import UserFollowersPage from './pages/user/dashboard/UserFollowersPage'
+import FollowingTagsPage from './pages/user/dashboard/FollowingTagsPage'
+import FollowingUsersPage from './pages/user/dashboard/FollowingUsersPage'
+import FollowingOrganizationsPage from './pages/user/dashboard/FollowingOrganizationsPage'
+import FollowingPodcastsPage from './pages/user/dashboard/FollowingPodcastsPage'
+import HiddenTagsPage from './pages/user/dashboard/HiddenTagsPage'
+import SeriesPage from './pages/user/dashboard/SeriesPage'
+import AnalyticsPage from './pages/user/dashboard/AnalyticsPage'
 
 axios.defaults.baseURL = SERVER_BASE_URL;
 axios.defaults.withCredentials = true;
@@ -43,8 +52,18 @@ const App = () => {
             <Route path=':username' element={<UserPage />} />
             <Route path=':username/:blogId' element={<BlogPage />} />
             <Route element={<UserProtectedRoute />} >
-            <Route path='notifications' element={<NotificationsPage />} />
-              <Route path='dashboard' element={<DashboardPage />} />
+              <Route path=':username/series' element={<SeriesPage />} />
+              <Route path='notifications' element={<NotificationsPage />} />
+              <Route path='dashboard' element={<DashboardLayout />} >
+                <Route index element={<PostPage />} />
+                <Route path='user_followers' element={<UserFollowersPage />} />
+                <Route path='following_tags' element={<FollowingTagsPage />} />
+                <Route path='following_users' element={<FollowingUsersPage />} />
+                <Route path='following_organizations' element={<FollowingOrganizationsPage />} />
+                <Route path='following_podcasts' element={<FollowingPodcastsPage />} />
+                <Route path='hidden_tags' element={<HiddenTagsPage />} />
+              </Route>
+              <Route path='dashboard/analytics' element={<AnalyticsPage />}/>
               <Route path='readinglist' element={<ReadingListPage />} />
               <Route path='settings' element={<SettingsLayout />}>
                 <Route index element={<ProfilePage />} />

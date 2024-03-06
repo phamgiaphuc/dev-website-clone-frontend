@@ -10,6 +10,7 @@ import UserCard from "@/components/cards/UserCard";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import PageTransformMotion from "@/components/motions/PageTransformMotion";
+import { RiHeartFill } from "react-icons/ri";
 
 const BlogPage = () => {
   const user = useSelector((state) => state.user.data);
@@ -19,6 +20,8 @@ const BlogPage = () => {
   const [author, setAuthor] = useState({});
   const [isOwner, setIsOwner] = useState(false);
   const subSectionRef = useRef();
+
+  const [like, setLike] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -61,13 +64,18 @@ const BlogPage = () => {
           <div className="w-12 mr-2 flex flex-col items-center py-16 h-fit">
             <div className={`flex flex-col gap-8 ${isScrolled ? 'fixed' : ''}`}>
               <div className="relative group flex flex-col items-center gap-1 cursor-pointer">
-                <RiHeartAddLine className="w-6 h-6 cursor-pointer hover:text-red-600" />
-                <span className="text-sm text-gray-600">{blog.reactions?.likes}</span>
+                {
+                  like ?
+                  <RiHeartFill onClick={() => setLike(!like)} className="w-6 h-6 cursor-pointer fill-red-600" />
+                  :
+                  <RiHeartAddLine onClick={() => setLike(!like)} className="w-6 h-6 cursor-pointer hover:text-red-600" />
+                }
+                <span className="text-sm text-gray-600">{blog.reactions?.likes.length}</span>
                 <div className="absolute z-10 origin-top duration-150 scale-0 transition-all opacity-85 top-12 bg-black text-white rounded-md text-sm text-center p-2 group-hover:scale-100">Add reactions</div>
               </div>
               <div className="group relative flex flex-col items-center gap-1 cursor-pointer">
                 <FaRegComment className="w-5 h-5 cursor-pointer hover:text-yellow-600" />
-                <span className="text-sm text-gray-600">{blog.reactions?.comments}</span>
+                <span className="text-sm text-gray-600">{blog.reactions?.comments.length}</span>
                 <div className="absolute z-10 origin-top duration-150 scale-0 transition-all opacity-85 top-12 bg-black text-white rounded-md text-sm text-center p-2 group-hover:scale-100">Add comments</div>
               </div>
               <div className="relative group flex flex-col items-center gap-1 cursor-pointer">
