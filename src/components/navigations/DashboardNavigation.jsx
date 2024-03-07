@@ -1,6 +1,9 @@
+import { DashboardContext } from "@/layouts/DashboardLayout";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 
 const DashboardNavigation = ({subpage, username}) => {
+  const { totalBlogs, dashboard } = useContext(DashboardContext);
   const linkClass = (type) => {
     return `p-2 rounded-md flex items-center justify-between ${type === subpage ? 'bg-white border border-gray-200 font-semibold' : 'text-gray-600 hover:bg-indigo-100 hover:text-indigo-600'}`;
   }
@@ -8,7 +11,7 @@ const DashboardNavigation = ({subpage, username}) => {
     <div className="flex flex-col">
       <Link to={'/dashboard'} className={linkClass('dashboard')}>
         <span>Posts</span>
-        <span className="px-1 py-0.5 text-sm bg-gray-300 rounded-md">1</span>
+        <span className="px-1 py-0.5 text-sm bg-gray-300 rounded-md">{totalBlogs}</span>
       </Link>
       <Link to={`/${username}/series`} className={linkClass('series')}>
         <span>Series</span>
@@ -24,7 +27,7 @@ const DashboardNavigation = ({subpage, username}) => {
       </Link>
       <Link to={'/dashboard/following_users'} className={linkClass('following_users')}>
         <span>Following users</span>
-        <span className="px-1 py-0.5 text-sm bg-gray-300 rounded-md">0</span>
+        <span className="px-1 py-0.5 text-sm bg-gray-300 rounded-md">{dashboard?.followingUsers.length}</span>
       </Link>
       <Link to={'/dashboard/following_organizations'} className={linkClass('following_organizations')}>
         <span>Following organizations</span>

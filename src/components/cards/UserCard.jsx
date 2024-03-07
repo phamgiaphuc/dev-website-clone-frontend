@@ -35,8 +35,6 @@ const UserCard = ({author, isOwner}) => {
     }
   }, [author._id]);
 
-  console.log(author);
-
   return (
     <div className="bg-white relative h-fit w-full flex flex-col rounded-md border border-gray-200 overflow-hidden">
       <div className="h-8" style={{ backgroundColor: `${author.profile?.branding_color}` }}></div>
