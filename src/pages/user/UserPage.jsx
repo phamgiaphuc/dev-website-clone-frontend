@@ -7,37 +7,43 @@ import SubCard from "@/components/cards/SubCard";
 import { BiSortDown, BiSortUp } from "react-icons/bi";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { formatDate } from "@/common/formatDate";
 import { LuCake } from "react-icons/lu";
 import { FaLocationDot } from "react-icons/fa6";
 import PageTransformMotion from "@/components/motions/PageTransformMotion";
+import { createAxios } from "@/common/axiosJWT";
+import { userFollowAnotherUser, userUnfollowAnotherUser } from "@/redux/userApi";
 
 const UserPage = () => {
-  const currentUser = useSelector((state) => state.user.data);
+  const { data: currentUser, isSignedIn } = useSelector((state) => state.user);
   const param = useParams();
   const query = new URLSearchParams(window.location.search);
   const [user, setUser] = useState({}); 
   const [blogs, setBlogs] = useState([]);
   const [sort, setSort] = useState(query.get('sort'));
   const navigate = useNavigate();
+  const [isFollow, setIsFollow] = useState(false);
+  const dispatch = useDispatch();
+  const axiosJWT = createAxios(currentUser, dispatch);
 
   const handleNewestBlogBtn = () => {
     setSort('desc');
-    navigate(`/${user.profile?.username}?publish=true&sort=desc`)
   }
 
   const handleOldestBlogBtn = () => {
     setSort('asc');
-    navigate(`/${user.profile?.username}?publish=true&sort=asc`)
   }
 
-  const handleFollowBtn = (event) => {
+  const handleFollowBtn = async (event) => {
     event.preventDefault();
-    if (!currentUser) {
+    if (!isSignedIn) {
       return navigate('/signin');
     }
-    console.log(`Followed ${user.profile?.username}`);
+    isFollow ? 
+    await userUnfollowAnotherUser(axiosJWT, user._id, setIsFollow)
+    :
+    await userFollowAnotherUser(axiosJWT, user._id, setIsFollow);
   }
 
   useEffect(() => {
@@ -54,6 +60,21 @@ const UserPage = () => {
     });
   }, [param.username, navigate, sort]);
 
+  useEffect(() => {
+    if (!isSignedIn) {
+      return navigate('/signin');
+    }
+    if (user.id) {
+      axiosJWT.post('/v1/users/check_follow', {
+        authorId: user.id
+      }).then(({ data: { isFollowed }}) =>  {
+        setIsFollow(isFollowed);
+      }).catch((error) => {
+        console.log(error);
+      });
+    }
+  }, [isSignedIn, navigate, user.id]);
+
   return (
     <PageTransformMotion>
       <div className={`absolute left-0 w-screen -z-10 h-[140px] flex justify-center font-light`} style={{ backgroundColor: user.profile?.branding_color }}></div>
@@ -68,6 +89,11 @@ const UserPage = () => {
               <Link to={'/settings'} className="py-2 px-4 z-10 rounded-md bg-indigo-600 text-center text-white hover:bg-indigo-700 hover:underline hover:underline-offset-2 cursor-pointer">
                 Edit profile
               </Link>
+              :
+              isFollow ?
+              <button onClick={handleFollowBtn} className="font-medium py-2 px-4 z-10 rounded-md bg-gray-100 text-center ring-2 ring-gray-300 hover:ring-gray-400 hover:bg-gray-200 hover:underline hover:underline-offset-2 cursor-pointer">
+                Following
+              </button>
               :
               <button onClick={handleFollowBtn} className="py-2 px-4 z-10 rounded-md bg-indigo-600 text-center text-white hover:bg-indigo-700 hover:underline hover:underline-offset-2 cursor-pointer">
                 Follow
