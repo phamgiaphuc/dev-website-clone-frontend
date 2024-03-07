@@ -33,6 +33,7 @@ import FollowingPodcastsPage from './pages/user/dashboard/FollowingPodcastsPage'
 import HiddenTagsPage from './pages/user/dashboard/HiddenTagsPage'
 import SeriesPage from './pages/user/dashboard/SeriesPage'
 import AnalyticsPage from './pages/user/dashboard/AnalyticsPage'
+import NotFoundPage from './pages/NotFoundPage'
 
 axios.defaults.baseURL = SERVER_BASE_URL;
 axios.defaults.withCredentials = true;
@@ -75,6 +76,7 @@ const App = () => {
                 <Route path='extensions' element={<ExtensionsPage />} />
               </Route>
             </Route>
+            <Route path='*' element={<NotFoundPage />}/>
           </Route>
           <Route element={<UserProtectedRoute />}>
             <Route path='/new' element={<EditorPage />} />

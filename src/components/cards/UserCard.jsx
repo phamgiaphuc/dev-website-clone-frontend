@@ -24,7 +24,7 @@ const UserCard = ({author, isOwner}) => {
   }
 
   useEffect(() => {
-    if (author._id) {
+    if (author._id && !isOwner) {
       axiosJWT.post('/v1/users/check_follow', {
         authorId: author._id
       }).then(({ data: { isFollowed }}) =>  {
@@ -33,7 +33,7 @@ const UserCard = ({author, isOwner}) => {
         console.log(error);
       });
     }
-  }, [author._id]);
+  }, [author._id, isOwner]);
 
   return (
     <div className="bg-white relative h-fit w-full flex flex-col rounded-md border border-gray-200 overflow-hidden">
