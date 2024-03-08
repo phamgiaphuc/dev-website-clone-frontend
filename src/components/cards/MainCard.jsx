@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 const MainCard = ({profile_img, username, fullname, blog}) => {
   return (
     <Link to={`/${username}/${blog._id}`} className="bg-white rounded-md border flex flex-col group cursor-pointer hover:border-gray-400 border-gray-200 overflow-hidden">
-      <img src={blog.cover_image} className="h-[250px] object-cover"/>
+      <img loading="lazy" src={blog.cover_image} className="h-[250px] object-cover"/>
       <div className="flex flex-col p-4">
         <div className="h-10 flex items-center overflow-hidden">
           <img src={profile_img} alt={username} className="w-10 h-10 rounded-full mr-2"/>

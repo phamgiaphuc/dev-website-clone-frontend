@@ -22,12 +22,12 @@ const PublishPostCard = ({blog, username}) => {
           </div>
         </div>
         <div className="flex items-center">
-          <Link className="p-2 rounded-md hover:bg-gray-200">
+          <button className="p-2 rounded-md hover:bg-gray-200">
             Manage
-          </Link>
-          <Link className="p-2 rounded-md hover:bg-gray-200">
+          </button>
+          <button className="p-2 rounded-md hover:bg-gray-200">
             Edit
-          </Link>
+          </button>
           <button className="p-2 rounded-md hover:bg-gray-200">
             <BsThreeDots className="w-6 h-6" />
           </button>

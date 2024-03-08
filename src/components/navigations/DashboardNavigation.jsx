@@ -27,7 +27,7 @@ const DashboardNavigation = ({subpage, username}) => {
       </Link>
       <Link to={'/dashboard/following_users'} className={linkClass('following_users')}>
         <span>Following users</span>
-        <span className="px-1 py-0.5 text-sm bg-gray-300 rounded-md">{dashboard?.followingUsers.length}</span>
+        <span className="px-1 py-0.5 text-sm bg-gray-300 rounded-md">{dashboard?.followingUsers.length || 0}</span>
       </Link>
       <Link to={'/dashboard/following_organizations'} className={linkClass('following_organizations')}>
         <span>Following organizations</span>
