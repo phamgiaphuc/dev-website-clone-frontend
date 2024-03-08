@@ -6,6 +6,7 @@ import SubSkeletonCard from '../cards/SubSkeletonCard';
 import PageTransformMotion from '../motions/PageTransformMotion';
 import MainCard from '../cards/MainCard';
 import SubCard from '../cards/SubCard';
+import { MdError } from "react-icons/md";
 
 const BlogsList = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -69,8 +70,16 @@ const BlogsList = () => {
       }
     </div>
     :
-    <div className="bg-white flex rounded-md border border-gray-200 p-4 font-semibold text-xl">
-      <span>No posts yet</span>
+    <div className='flex flex-col gap-2 font-light'>
+      { !isLoading &&
+        <div className="bg-white rounded-md border flex gap-2 border-gray-200 p-4 h-fit">
+          <MdError className='w-6 h-6 fill-red-500' />
+          <span>Server is reloading. Please reload the page after 10 or 15 seconds</span>
+        </div>
+      }
+      <div className="bg-white rounded-md border border-gray-200 p-4 font-semibold text-xl h-fit">
+        <span>No posts yet</span>
+      </div>
     </div>
   )
 }
